@@ -3,6 +3,7 @@
 link : http://conteudo.icmc.usp.br/pessoas/taspardo/sucinto/files/CSTNews%206.0.zip
 
 Baseline:
+
 +--+--+--+--+--+
 |Verbo  |  |  |  |  |
 +--+--+--+--+--+
@@ -12,6 +13,8 @@ Baseline:
 +--+--+--+--+--+
 | marcar |  |  |  |  |
 +--+--+--+--+--+
+
+
 Verbo F S SMF C L M AS N
  9 7 11.11 11.11 22.22 11.11 22.22 0.00
  12 7 8.33 8.33 16.67 9.09 16.67 8.33
