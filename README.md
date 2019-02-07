@@ -4,6 +4,11 @@ link : http://conteudo.icmc.usp.br/pessoas/taspardo/sucinto/files/CSTNews%206.0.
 
 Baseline:
 
+| Syntax | Description |
+| --- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
 +--+--+--+--+--+
 |Verbo  | w | w | w | w |
 +--+--+--+--+--+
