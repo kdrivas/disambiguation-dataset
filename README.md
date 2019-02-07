@@ -5,13 +5,13 @@ link : http://conteudo.icmc.usp.br/pessoas/taspardo/sucinto/files/CSTNews%206.0.
 Baseline:
 
 +--+--+--+--+--+
-|Verbo  |  |  |  |  |
+|Verbo  | w | w | w | w |
 +--+--+--+--+--+
-| tratar |  |  |  |  |
+| tratar | e | e | e | e |
 +--+--+--+--+--+
-| estabelecer |  |  |  |  |
+| estabelecer |  d| d | d | d |
 +--+--+--+--+--+
-| marcar |  |  |  |  |
+| marcar | r | r | r | r |
 +--+--+--+--+--+
 
 
