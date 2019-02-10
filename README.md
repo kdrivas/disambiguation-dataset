@@ -1,8 +1,8 @@
 -- Translation corpus
 
-mkdir data
-cd data
-wget http://lcl.uniroma1.it/wsdeval/data/WSD_Evaluation_Framework.zip
+- mkdir data
+- cd data
+- wget http://lcl.uniroma1.it/wsdeval/data/WSD_Evaluation_Framework.zip
 
 -- Experiments with portuguese
 
