@@ -22,42 +22,33 @@ class Beam():
         self.decoder_hidden = decoder_hidden
         self.decoder_arr_hidden = decoder_arr_hidden
 
-class Evaluator():
-    def __init__(self, encoder, decoder, input_lang, output_lang, max_length, USE_CUDA):
-        self.encoder = encoder
-        self.decoder = decoder
-        self.input_lang = input_lang
-        self.output_lang = output_lang
-        self.max_length = max_length
-        self.USE_CUDA = USE_CUDA
-        
-    def evaluate(self, sentence, k_beams):
-        
-        input_variable = variable_from_sentence(self.input_lang, sentence, USE_CUDA=self.USE_CUDA)
+def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, USE_CUDA=True):
+    with torch.no_grad():
+        input_variable = variable_from_sentence(input_lang, sentence, USE_CUDA)
         input_length = input_variable.shape[0]
-        
-        encoder_hidden = self.encoder.init_hidden(1)
-        encoder_outputs, encoder_hidden = self.encoder(input_variable, encoder_hidden)
-        decoder_input = Variable(torch.LongTensor([[self.output_lang.vocab.stoi['<sos>']]]))
 
-        decoder_context = Variable(torch.zeros(1, self.decoder.hidden_size))
+        encoder_hidden = encoder.init_hidden(1)
+        encoder_outputs, encoder_hidden = encoder(input_variable, encoder_hidden)
+
+        decoder_input = Variable(torch.LongTensor([[input_lang.vocab.stoi['<sos>']]]))
+        decoder_context = Variable(torch.zeros(1, decoder.hidden_size))
         decoder_hidden = encoder_hidden
-        
-        if self.USE_CUDA:
+
+        if USE_CUDA:
             decoder_input = decoder_input.cuda()
             decoder_context = decoder_context.cuda()
-            
+
         decoded_words = []
-        decoder_attentions = torch.zeros(self.max_length, self.max_length)
+        decoder_attentions = torch.zeros(MAX_LENGTH, MAX_LENGTH)
 
         beams = [Beam(decoder_input, decoder_context, decoder_hidden)]
         top_beams = []
-        
+
         # Use decoder output as inputs
-        for di in range(self.max_length):      
+        for di in range(MAX_LENGTH):      
             new_beams = []
             for beam in beams:
-                decoder_output, decoder_context, decoder_hidden, decoder_attention = self.decoder(
+                decoder_output, decoder_context, decoder_hidden, decoder_attention = decoder(
                     beam.decoder_input, beam.decoder_context, beam.decoder_hidden, encoder_outputs)     
 
                 # Beam search, take the top k with highest probability
@@ -65,27 +56,28 @@ class Evaluator():
 
                 for ni, vi in zip(topi[0], topv[0]):
                     new_beam = Beam(None, decoder_context, decoder_hidden, 
-                                    beam.decoded_words[:], beam.decoder_attentions[:], beam.sequence_log_probs[:])
+                                        beam.decoded_words[:], beam.decoder_attentions[:], beam.sequence_log_probs[:])
                     new_beam.decoder_attentions.append(decoder_attention.squeeze().cpu().data)
                     new_beam.sequence_log_probs.append(vi)
 
-                    if ni == self.output_lang.vocab.stoi['<eos>'] or ni == self.output_lang.vocab.stoi['<pad>']: 
-                        new_beam.decoded_words.append('<eos>')
+                    if ni == input_lang.vocab.stoi['<eos>'] or ni == output_lang.vocab.stoi['<pad>']: 
+                        new_beam.decoded_words.append('<EOS>')
                         top_beams.append(new_beam)
 
                     else:
-                        new_beam.decoded_words.append(self.output_lang.vocab.itos[ni])                        
+                        new_beam.decoded_words.append(output_lang.vocab.itos[ni])                        
+
                         decoder_input = Variable(torch.LongTensor([[ni]]))
-                        if self.USE_CUDA: decoder_input = decoder_input.cuda()
+                        if USE_CUDA: decoder_input = decoder_input.cuda()
                         new_beam.decoder_input = decoder_input                        
                         new_beams.append(new_beam)                    
-            
+
             new_beams = {beam: np.mean(beam.sequence_log_probs) for beam in new_beams}
             beams = sorted(new_beams, key=new_beams.get, reverse=True)[:k_beams]
 
             if len(beams) == 0:
                 break
-        
+
         if len(top_beams):
             top_beams = {beam: np.mean(beam.sequence_log_probs) for beam in top_beams}
         else:
@@ -97,87 +89,81 @@ class Evaluator():
         top_beams = sorted(top_beams, key=top_beams.get, reverse=True)[:k_beams]        
 
         decoded_words = top_beams[0].decoded_words
+        for di, decoder_attention in enumerate(top_beams[0].decoder_attentions):
+            decoder_attentions[di,:decoder_attention.size(0)] += decoder_attention
 
-        return decoded_words
+    return decoded_words, decoder_attentions[:len(top_beams[0].decoder_attentions)+1, :len(encoder_outputs)]
+
+def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, senses_per_sentence, k_beams=3, verbose=False, report=False):
     
-    def evaluate_sentence(self, sentence, k_beams=3):        
-        output_words, decoder_attn, beams = self.evaluate(sentence, k_beams)
-        output_sentence = ' '.join(output_words)
+    dict_pt_verbs = {'tratar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'estabelecer_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'marcar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'vir_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'colocar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'fechar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'dar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'cair_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'encontrar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'registrar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'levar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'receber_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'apresentar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'passar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'deixar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'chegar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ficar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'fazer_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ter_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ser_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0}}
         
-        print('>', sentence)
-        print('<', output_sentence)
-        print('')
+    hint = 0
+    total_senses = 0
+    selected_synsets = np.load(Path.cwd() / 'data/disambiguation/selected_synsets.npy')
+    for ix, (pair, senses) in enumerate(zip(pairs, senses_per_sentence)):
+        sentence = pair[0].lower()
+        if len(senses) == 0:
+            continue
+        output_words, attentions = evaluate(sentence, k_beams)
+        torch.cuda.empty_cache()
 
-    def evaluate_randomly(self, pairs, k_beams=3):
-        pair = random.choice(pairs)
-        print(pair)
-        
-        output_words, decoder_attn, beams = self.evaluate(pair[0], k_beams)
-        output_sentence = ' '.join(output_words)
-        
-        print('>', pair[0])
-        print('=', pair[1])
-        print('<', output_sentence)
-        print('')
-
-    def evaluate_acc(self, pairs, k_beams=3, verbose=False):
-        hint = 0
-        for ix, pair in enumerate(pairs):
-            #temp = pair.split('\t')
-            sentence, pos, id_senses = pair[0].lower(), int(pair[1]), pair[2:]
-            
-            output_words = self.evaluate(sentence, k_beams)
-            torch.cuda.empty_cache()
-
-            if len(output_words) > pos and output_words[pos] in id_senses:
-                hint += 1
-                            
-            if verbose:
-                print(output_words)
-                print("----- ID")
-                print(ix)
-                print("----- tokens input")
-                print(sentence)
-                print("----- output predecido")
-                print(' '.join(output_words))
-                print("----- respuesta")
-                print(id_senses)
-                print()
-                print("--- hints:  {}   --- acc: {}".format(hint, (hint / len(pairs))))
+        for pos, sense in senses:
                 
-        return hint / len(pairs)
+            pred = output_words[attentions[:, pos].max(0)[1].item()]
+            if pred in selected_synsets:
+                dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
+
+                total_senses += 1
+                if sense == pred:
+                    dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
+                    hint += 1
+            dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
+                            
+        if verbose:
+            print("----- ID")
+            print(ix)
+            print("----- tokens input")
+            print(pair[0].lower())
+            print("----- tokens real")
+            print(pair[1].lower())
+            print("----- output predecido")
+            print(' '.join(output_words))
+            print()
+            print("--- hints:  {}   --- acc: {}".format(hint, (hint / total_senses if total_senses else 1)))
+            
+    if report:
+        return hint / total_senses, dict_pt_verbs
+    else:
+        return hint / total_senses
         
-    def show_attention(self, input_sentence, output_words, attentions):
-        # Set up figure with colorbar
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        cax = ax.matshow(attentions.numpy(), cmap='bone')
-        fig.colorbar(cax)
-
-        # Set up axes
-        ax.set_xticklabels([''] + input_sentence.split(' ') + ['<EOS>'], rotation=90)
-        ax.set_yticklabels([''] + output_words)
-
-        # Show label at every tick
-        ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
-        ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
-
-        plt.show()
-        plt.close()
-
-    def evaluate_and_show_attention(self, input_sentence, k_beams=3):
-        output_words, attentions, beams = self.evaluate(input_sentence, k_beams)
-        print('input =', input_sentence)
-        print('output =', ' '.join(output_words))
-        self.show_attention(input_sentence, output_words, attentions)
-
-    def evaluate_randomly_and_show_attention(self, pairs, k_beams=3):
-        pair = random.choice(pairs)
-        print(pair)        
-        self.evaluate_and_show_attention(pair[0], k_beams)
-
-    def get_candidates_and_references(self, pairs, arr_dep_test, k_beams=3):
-        candidates = [self.evaluate(ix, pairs, arr_dep_test, k_beams)[0] for ix, pair in tqdm_notebook(enumerate(pairs))]
-        candidates = [' '.join(candidate[:-1]) for candidate in candidates]
-        references = [pair[1] for pair in pairs]
-        return candidates, references
+def evaluate_randomly(encoder, decoder, input_lang, output_lang, pairs):
+    pair = random.choice(pairs)
+    
+    output_words, decoder_attn = evaluate(pair[0], 1)
+    output_sentence = ' '.join(output_words)
+    
+    print('>', pair[0])
+    print('=', pair[1])
+    print('<', output_sentence)
+    print('')
+    

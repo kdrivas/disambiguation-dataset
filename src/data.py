@@ -17,7 +17,7 @@ from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
 
-from stanfordcorenlp import StanfordCoreNLP
+#from stanfordcorenlp import StanfordCoreNLP
 from tqdm import tqdm
 from src.tree import Tree
 import torchtext 
@@ -349,7 +349,7 @@ def get_matrix(array, pair):
         
     return matrix
 
-def construct_vector(pair, name_lang, construct_vector=True, vector_name='fasttext.en.300d', dir='corpus'):
+def construct_vector(pair, name_lang, construct_vector=True, vector_name='fasttext.pt.300d', dir='corpus'):
     lang = pd.DataFrame(pair, columns=[name_lang])
 
     lang.to_csv(f'{dir}/' + name_lang + '.csv', index=False)
@@ -397,7 +397,7 @@ def filter_pairs_lang(pairs, min_length, max_length):
                 filtered_indexes.append(ix)
     return filtered_pairs, filtered_indexes
 
-def read_file(name_file, reverse=False, dir='corpus'):
+def read_file(name_file, reverse=False, dir='corpus', return_orig=False):
     print("Reading lines...")
 
     # Read the file and split into lines
@@ -405,9 +405,16 @@ def read_file(name_file, reverse=False, dir='corpus'):
     lines_a = open(filename, encoding='utf8').read().strip().split('\n')
     filename = f'{dir}/{name_file}_out.txt'
     lines_b = open(filename, encoding='utf8').read().strip().split('\n')
-
+    
+    if return_orig:
+        filename = f'{dir}/{name_file}_orig.txt'
+        lines_o = open(filename, encoding='utf8').read().strip().split('\n')  
+        
     # Split every line into pairs and normalize
-    pairs = [[normalize_string(s) for s in l] for l in zip(lines_a, lines_b)]
+    if return_orig:
+        pairs = [[normalize_string(s) for s in l] for l in zip(lines_a, lines_b, lines_o)]
+    else:
+        pairs = [[normalize_string(s) for s in l] for l in zip(lines_a, lines_b)]
   
     # Reverse pairs, make Lang instances
     if reverse:
@@ -416,6 +423,17 @@ def read_file(name_file, reverse=False, dir='corpus'):
     return pairs
 
 def read_test(dir):
+    print("Reading lines...")
+    
+    filename = f'{dir}/{name_file}_in.txt'
+    lines_a = open(filename, encoding='utf8').read().strip().split('\n')
+    filename = f'{dir}/{name_file}_out.txt'
+    lines_b = open(filename, encoding='utf8').read().strip().split('\n')
+    
+    # Split every line into pairs and normalize
+    pairs = [[normalize_string(s) for s in l] for l in zip(lines_a, lines_b)]
+    
+
     pairs = []
     with open(os.path.join(dir, 'test.raw'), 'r') as file:
         for line in file.readlines():
@@ -423,15 +441,20 @@ def read_test(dir):
     
     return pairs
 
-def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, max_length=50, dir_train=None, dir_test=None, return_trees=False, output_tree='matrix'):
-    pairs_train = read_file(name_file_train, reverse=reverse, dir=dir_train)
+def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, max_length=50, dir_train=None, dir_test=None, return_trees=False, output_tree='matrix', return_orig=False):
+    pairs_train = read_file(name_file_train, reverse=reverse, dir=dir_train, return_orig=return_orig)
     print("Read %d train pairs" % len(pairs_train))
     
-    if dir_test:
-        pairs_test = read_file(name_file_test, reverse=reverse, dir=dir_test)
-    else:
-        pairs_test = pairs_train[:5000]
+    pairs_test = read_file(name_file_test, reverse=reverse, dir=dir_test)
     print("Read %d test pairs" % len(pairs_test))
+    
+    senses_test = []
+    for pair in pairs_test:
+        temp = []
+        for ix, (in_s, out_s) in enumerate(zip(pair[0].split(), pair[1].split())):
+            if in_s != out_s:
+                temp.append([ix, out_s])
+        senses_test.append(temp)
     
     pairs_train, indexes = filter_pairs_lang(pairs_train, min_length, max_length)
     print("Filtered to %d pairs" % len(pairs_train))
@@ -463,7 +486,7 @@ def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, m
 
     print('Indexed %d words in input language, %d words in output' % (len(vector_1.vocab.itos), len(vector_2.vocab.itos)))
     if return_trees:
-        return vector_1, vector_2, train_syntax, test_syntax, pairs_train, pairs_test
+        return vector_1, vector_2, train_syntax, test_syntax, pairs_train, pairs_test, senses_test
     else:
-        return vector_1, vector_2, pairs_train, pairs_test
+        return vector_1, vector_2, pairs_train, pairs_test, senses_test
     
