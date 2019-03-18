@@ -1,3 +1,9 @@
+-- Instructions
+
+pip install -r requirements.txt
+bash setup.sh
+bash run_exp.sh
+
 -- Translation corpus
 
 - mkdir data
