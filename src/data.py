@@ -17,8 +17,6 @@ from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
 
-#from stanfordcorenlp import StanfordCoreNLP
-from tqdm import tqdm
 from src.tree import Tree
 import torchtext 
 from torchtext import data
@@ -471,8 +469,8 @@ def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, m
     pairs_out = pairs_train[:, 1]
     indexes = np.array(indexes)
     
-    vector_1 = construct_vector(pairs_in, 'in', dir=dir_train)
-    vector_2 = construct_vector(pairs_out, 'out', dir=dir_train)
+    vector_1 = construct_vector(pairs_in, 'in', construct_vector=False, dir=dir_train)
+    vector_2 = construct_vector(pairs_out, 'out', construct_vector=False, dir=dir_train)
     
     if return_trees:
         if output_tree == 'tree':
@@ -486,7 +484,7 @@ def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, m
 
     print('Indexed %d words in input language, %d words in output' % (len(vector_1.vocab.itos), len(vector_2.vocab.itos)))
     if return_trees:
-        return vector_1, vector_2, train_syntax, test_syntax, pairs_train, pairs_test, senses_test
+        return vector_1, vector_2, train_syntax, test_syntax, np.array(pairs_train), np.array(pairs_test), senses_test
     else:
-        return vector_1, vector_2, pairs_train, pairs_test, senses_test
+        return vector_1, vector_2, np.array(pairs_train), np.array(pairs_test), senses_test
     

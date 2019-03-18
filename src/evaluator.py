@@ -4,10 +4,11 @@ from torch.nn import functional
 from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
-import re 
 import numpy as np
-from tqdm import tqdm, tqdm_notebook
+
 from src.data import variable_from_sentence
+
+MAX_LENGTH = 100
 
 class Beam():
     def __init__(self, decoder_input, decoder_context, decoder_hidden,
@@ -22,9 +23,9 @@ class Beam():
         self.decoder_hidden = decoder_hidden
         self.decoder_arr_hidden = decoder_arr_hidden
 
-def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, USE_CUDA=True):
+def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda=True, max_length=100):
     with torch.no_grad():
-        input_variable = variable_from_sentence(input_lang, sentence, USE_CUDA)
+        input_variable = variable_from_sentence(input_lang, sentence, cuda)
         input_length = input_variable.shape[0]
 
         encoder_hidden = encoder.init_hidden(1)
@@ -34,18 +35,18 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, USE_C
         decoder_context = Variable(torch.zeros(1, decoder.hidden_size))
         decoder_hidden = encoder_hidden
 
-        if USE_CUDA:
+        if cuda:
             decoder_input = decoder_input.cuda()
             decoder_context = decoder_context.cuda()
 
         decoded_words = []
-        decoder_attentions = torch.zeros(MAX_LENGTH, MAX_LENGTH)
+        decoder_attentions = torch.zeros(max_length, max_length)
 
         beams = [Beam(decoder_input, decoder_context, decoder_hidden)]
         top_beams = []
 
         # Use decoder output as inputs
-        for di in range(MAX_LENGTH):      
+        for di in range(max_length):      
             new_beams = []
             for beam in beams:
                 decoder_output, decoder_context, decoder_hidden, decoder_attention = decoder(
@@ -68,7 +69,7 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, USE_C
                         new_beam.decoded_words.append(output_lang.vocab.itos[ni])                        
 
                         decoder_input = Variable(torch.LongTensor([[ni]]))
-                        if USE_CUDA: decoder_input = decoder_input.cuda()
+                        if cuda: decoder_input = decoder_input.cuda()
                         new_beam.decoder_input = decoder_input                        
                         new_beams.append(new_beam)                    
 
@@ -94,8 +95,7 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, USE_C
 
     return decoded_words, decoder_attentions[:len(top_beams[0].decoder_attentions)+1, :len(encoder_outputs)]
 
-def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, senses_per_sentence, k_beams=3, verbose=False, report=False):
-    
+def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_synsets, senses_per_sentence, k_beams=3, report=False, max_length=100, cuda=False):
     dict_pt_verbs = {'tratar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
             'estabelecer_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
             'marcar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
@@ -118,13 +118,14 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, senses_per_se
             'ser_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0}}
         
     hint = 0
-    total_senses = 0
-    selected_synsets = np.load(Path.cwd() / 'data/disambiguation/selected_synsets.npy')
+    total_prec = 0
+    total_reca = 0
+
     for ix, (pair, senses) in enumerate(zip(pairs, senses_per_sentence)):
         sentence = pair[0].lower()
         if len(senses) == 0:
             continue
-        output_words, attentions = evaluate(sentence, k_beams)
+        output_words, attentions = evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda, max_length)
         torch.cuda.empty_cache()
 
         for pos, sense in senses:
@@ -133,28 +134,21 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, senses_per_se
             if pred in selected_synsets:
                 dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
 
-                total_senses += 1
+                total_prec += 1
                 if sense == pred:
                     dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
                     hint += 1
+            total_reca += 1
             dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
-                            
-        if verbose:
-            print("----- ID")
-            print(ix)
-            print("----- tokens input")
-            print(pair[0].lower())
-            print("----- tokens real")
-            print(pair[1].lower())
-            print("----- output predecido")
-            print(' '.join(output_words))
-            print()
-            print("--- hints:  {}   --- acc: {}".format(hint, (hint / total_senses if total_senses else 1)))
-            
+        
+    precision = hint / total_prec
+    recall = hint / total_reca
+    f1 = 2 * precision * recall / (precision + recall)
     if report:
-        return hint / total_senses, dict_pt_verbs
+        return f1, precision, recall, dict_pt_verbs
     else:
-        return hint / total_senses
+        return f1
+        
         
 def evaluate_randomly(encoder, decoder, input_lang, output_lang, pairs):
     pair = random.choice(pairs)

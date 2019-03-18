@@ -1,8 +1,6 @@
 import numpy as np
 import time
 import math
-import json
-import codecs
 import matplotlib.pyplot as plt
 
 def as_minutes(s):
@@ -17,17 +15,6 @@ def time_since(since, percent):
     rs = es - s
     return '%s (- %s)' % (as_minutes(s), as_minutes(rs))
 
-def save_json(file_path, pairs):
-    pairs_list = pairs.tolist() # nested lists with same data, indices
-    json.dump(pairs_list, codecs.open(file_path, 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=True, indent=4)
-    
-def load_json(file_path):
-    obj_text = codecs.open(file_path, 'r', encoding='utf-8').read()
-    b_new = json.loads(obj_text)
-    a_new = np.array(b_new)
-    
-    return a_new
-
 def show_plot(points):
     plt.figure()
     fig, ax = plt.subplots()
@@ -41,9 +28,31 @@ def plot_losses(train_loss, val_loss, scale):
     plt.plot([(x + 1) * scale - 1 for x in range(len(val_loss))], val_loss)
     plt.legend(['train loss', 'validation loss'])
 
-def print_tree(tree, idx):
-    for t in tree.children:
-        print(f'arbol: {tree.idx} N hijos: {tree.num_children}')
-        print(f'parent: {idx} child {t.idx}')
-        print()
-        print_tree(t, t.idx)
+def get_avg_length(verb, pairs):
+    total_tokens = []
+    for ix_pair, pair in enumerate(pairs):
+        if verb in pair[0].split():
+            total_tokens.append(len(pair[0].split()))
+    
+    total_tokens = np.array(total_tokens)
+    return total_tokens.mean(), total_tokens.std(), len(total_tokens)
+
+def get_stats(report, train_pairs, test_pairs):
+    
+    r = {}
+    for key in report:
+        r[key] = {}
+        r[key]['precision'] = (report[key]['hint'] / report[key]['total_out_ambiguous']) if  report[key]['total_out_ambiguous'] else report[key]['total_out_ambiguous']
+        r[key]['coverage'] = report[key]['hint'] / report[key]['total_in_ambiguous']
+        
+        temp_mean, temp_std, temp_total = get_avg_length(key, train_pairs)
+        r[key]['train_avg_lenght'] = temp_mean
+        r[key]['train_std_lenght'] = temp_std
+        r[key]['train_n'] = temp_total
+        temp_mean, temp_std, temp_total = get_avg_length(key, test_pairs)
+        r[key]['test_avg_lenght'] = temp_mean
+        r[key]['test_std_lenght'] = temp_std
+        r[key]['test_n'] = temp_total   
+        
+    res = pd.DataFrame(r).transpose().sort_values(by='precision')
+    return res
