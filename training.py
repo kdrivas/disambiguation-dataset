@@ -1,3 +1,7 @@
+# coding: utf-8
+
+
+
 import torch
 import torch.nn as nn
 from torch.nn import functional
@@ -23,13 +27,13 @@ from src.data import prepare_data
 from src.data_loader import get_loader
 from src.evaluator import evaluate_acc
 
-def train(input_var, target_var, model, model_optimzier, clip, output_size, train=True):
+def train(input_var, target_var, model, model_optimzier, clip, train=True):
     
     if train:
         model_optimzier.zero_grad()
     
     all_decoder_outputs, target_var = model(input_var, target_var, train)
-    loss = nn.NLLLoss()(all_decoder_outputs.view(-1, output_size), target_var.contiguous().view(-1))          
+    loss = nn.NLLLoss()(all_decoder_outputs.view(-1, decoder.output_size), target_var.contiguous().view(-1))          
     
     if train:
         loss.backward()
@@ -38,11 +42,11 @@ def train(input_var, target_var, model, model_optimzier, clip, output_size, trai
     
     return loss.item() 
 
-def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=100, cuda_ids = [0, 1], cuda=True, n_epochs=10, seed=0):
-
+def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, seed=0):
+    
     dir_train = os.path.join(dir_files, 'all')
     dir_test = os.path.join(dir_files, 'test')
-    dir_results = os.path.join(dir_results, name_file)
+    dir_results = os.path.join(dir_files, name_file)
     if not os.path.exists(dir_results):
         os.mkdir(dir_results)
     
@@ -55,9 +59,12 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     tf_ratio = 0.5
     clip = 5.0
 
+    n_epochs = 10
     batch_size = 50
-    start_eval = 2
-    print_every = 100
+    plot_every = 5
+    start_eval = 5
+    print_every = 5
+    validate_loss_every = 100
     evaluate_every = 25
 
     train_losses = []
@@ -71,7 +78,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     np.random.seed(seed)
     device = torch.device("cuda" if cuda else "cpu")
 
-    input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data(name_file, 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
+    input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data('all_f1_lemma', 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
     selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
     
     encoder = Encoder(len(input_lang.vocab.stoi), hidden_size, emb_size, n_layers, dropout_p, USE_CUDA=cuda)
@@ -79,7 +86,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
 
     if cuda:
-        model = nn.DataParallel(model, device_ids=cuda_ids).cuda()
+        model = nn.DataParallel(model, device_ids=[cuda_ids]).cuda()
 
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
@@ -102,7 +109,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
             input_var, target_var = input_var.to(device), target_var.to(device)
 
             # Run the train function
-            loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)            
+            loss = train(input_var, target_var, model, model_optimizer, clip, train=train)            
             torch.cuda.empty_cache()
 
             # Keep track of loss
@@ -118,7 +125,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
                 train_losses.append(loss)
                 print(print_summary)
 
-            if epoch >= start_eval and batch_ix % evaluate_every == 0:
+            if epoch >= 2 and batch_ix % evaluate_every == 0:
                 model.eval()
 
                 metric = evaluate_acc(pairs_test, senses_per_sentence, k_beams=1, verbose=False)
@@ -149,3 +156,4 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     
 if __name__ == '__main__':
     fire.Fire(main)
+
