@@ -59,7 +59,7 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda=
                     new_beam = Beam(None, decoder_context, decoder_hidden, 
                                         beam.decoded_words[:], beam.decoder_attentions[:], beam.sequence_log_probs[:])
                     new_beam.decoder_attentions.append(decoder_attention.squeeze().cpu().data)
-                    new_beam.sequence_log_probs.append(vi)
+                    new_beam.sequence_log_probs.append(vi.item())
 
                     if ni == input_lang.vocab.stoi['<eos>'] or ni == output_lang.vocab.stoi['<pad>']: 
                         new_beam.decoded_words.append('<EOS>')
@@ -88,12 +88,12 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda=
         #     print(beam.decoded_words, top_beams[beam])
 
         top_beams = sorted(top_beams, key=top_beams.get, reverse=True)[:k_beams]        
-
+        
         decoded_words = top_beams[0].decoded_words
-        for di, decoder_attention in enumerate(top_beams[0].decoder_attentions):
-            decoder_attentions[di,:decoder_attention.size(0)] += decoder_attention
+        #for di, decoder_attention in enumerate(top_beams[0].decoder_attentions):
+        #    decoder_attentions[di,:decoder_attention.size(0)] += decoder_attention
 
-    return decoded_words, decoder_attentions[:len(top_beams[0].decoder_attentions)+1, :len(encoder_outputs)]
+    return decoded_words, 1 # decoder_attentions[:len(top_beams[0].decoder_attentions)+1, :len(encoder_outputs)]
 
 def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_synsets, senses_per_sentence, k_beams=3, report=False, max_length=100, cuda=False):
     dict_pt_verbs = {'tratar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
@@ -125,19 +125,19 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_syns
         sentence = pair[0].lower()
         if len(senses) == 0:
             continue
-        output_words, attentions = evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda, max_length)
+        output_words, _ = evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda, max_length)
         torch.cuda.empty_cache()
-
+        
         for pos, sense in senses:
-                
-            pred = output_words[attentions[:, pos].max(0)[1].item()]
-            if pred in selected_synsets:
-                dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
+            if len(output_words) > pos:  
+                pred = output_words[pos]
+                if pred in selected_synsets:
+                    dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
 
-                total_prec += 1
-                if sense == pred:
-                    dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
-                    hint += 1
+                    total_prec += 1
+                    if sense == pred:
+                        dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
+                        hint += 1
             total_reca += 1
             dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
         

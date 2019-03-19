@@ -27,13 +27,13 @@ from src.data import prepare_data
 from src.data_loader import get_loader
 from src.evaluator import evaluate_acc
 
-def train(input_var, target_var, model, model_optimzier, clip, train=True):
+def train(input_var, target_var, model, model_optimzier, clip, output_size, train=True):
     
     if train:
         model_optimzier.zero_grad()
     
     all_decoder_outputs, target_var = model(input_var, target_var, train)
-    loss = nn.NLLLoss()(all_decoder_outputs.view(-1, decoder.output_size), target_var.contiguous().view(-1))          
+    loss = nn.NLLLoss()(all_decoder_outputs.view(-1, output_size), target_var.contiguous().view(-1))          
     
     if train:
         loss.backward()
@@ -42,11 +42,11 @@ def train(input_var, target_var, model, model_optimzier, clip, train=True):
     
     return loss.item() 
 
-def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, seed=0):
+def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=10, seed=0):
     
     dir_train = os.path.join(dir_files, 'all')
     dir_test = os.path.join(dir_files, 'test')
-    dir_results = os.path.join(dir_files, name_file)
+    dir_results = os.path.join(dir_results, name_file)
     if not os.path.exists(dir_results):
         os.mkdir(dir_results)
     
@@ -59,11 +59,10 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     tf_ratio = 0.5
     clip = 5.0
 
-    n_epochs = 10
     batch_size = 50
     plot_every = 5
     start_eval = 5
-    print_every = 5
+    print_every = 50
     validate_loss_every = 100
     evaluate_every = 25
 
@@ -86,7 +85,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
 
     if cuda:
-        model = nn.DataParallel(model, device_ids=[cuda_ids]).cuda()
+        model = nn.DataParallel(model, device_ids=cuda_ids).cuda()
 
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
@@ -95,7 +94,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
     start = time.time()
 
-    for epoch in range(1, n_epochs): 
+    for epoch in range(1, n_epochs + 1): 
         # Shuffle data
         id_aux = np.random.permutation(np.arange(len(pairs_train)))
         pairs_train = pairs_train[id_aux]
@@ -109,7 +108,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
             input_var, target_var = input_var.to(device), target_var.to(device)
 
             # Run the train function
-            loss = train(input_var, target_var, model, model_optimizer, clip, train=train)            
+            loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)
             torch.cuda.empty_cache()
 
             # Keep track of loss
@@ -128,15 +127,15 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
             if epoch >= 2 and batch_ix % evaluate_every == 0:
                 model.eval()
 
-                metric = evaluate_acc(pairs_test, senses_per_sentence, k_beams=1, verbose=False)
+                metric = evaluate_acc(encoder, decoder, input_lang, output_lang, pairs_test, selected_synsets, senses_per_sentence, k_beams=1, report=False, max_length=max_length, cuda=cuda)
                 if metric > best_metric:
                     best_metric = metric
                     torch.save(model.state_dict(), f'{dir_results}/seq2seq.pkl')
                     torch.save(encoder.state_dict(), f'{dir_results}/enc.pkl')
                     torch.save(decoder.state_dict(), f'{dir_results}/dec.pkl')
                     print('Saving weights')
-                validation_acc.append(acc)
-                print(f'------------- metric: {acc}')
+                validation_acc.append(metric)
+                print(f'Validate metric: {metric}')
 
                 model.train()
                 

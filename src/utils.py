@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import time
 import math
 import matplotlib.pyplot as plt
@@ -35,7 +36,7 @@ def get_avg_length(verb, pairs):
             total_tokens.append(len(pair[0].split()))
     
     total_tokens = np.array(total_tokens)
-    return total_tokens.mean(), total_tokens.std(), len(total_tokens)
+    return np.mean(total_tokens) if len(total_tokens) else -1, np.std(total_tokens) if len(total_tokens) else -1, len(total_tokens)
 
 def get_stats(report, train_pairs, test_pairs):
     
