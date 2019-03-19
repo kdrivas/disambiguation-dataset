@@ -9,7 +9,7 @@ cd data
 
 wget http://lcl.uniroma1.it/wsdeval/data/WSD_Evaluation_Framework.zip
 
-https://s3.amazonaws.com/frazada/disambiguation.zip
+wget https://s3.amazonaws.com/frazada/disambiguation.zip
 wget https://s3.amazonaws.com/frazada/serialize.zip
 wget https://s3.amazonaws.com/frazada/translation.zip
 

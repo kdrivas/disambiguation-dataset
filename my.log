@@ -1,0 +1,140 @@
+nohup: ignoring input
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Traceback (most recent call last):
+  File "training.py", line 151, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 105, in main
+    loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)            
+  File "training.py", line 35, in train
+    loss.backward()
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/tensor.py", line 102, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/autograd/__init__.py", line 90, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+RuntimeError: CUDA out of memory. Tried to allocate 475.62 MiB (GPU 0; 7.93 GiB total capacity; 2.07 GiB already allocated; 89.56 MiB free; 192.10 MiB cached)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Traceback (most recent call last):
+  File "training.py", line 151, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 105, in main
+    loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)            
+  File "training.py", line 31, in train
+    all_decoder_outputs, target_var = model(input_var, target_var, train)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 144, in forward
+    return self.gather(outputs, self.output_device)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 156, in gather
+    return gather(outputs, output_device, dim=self.dim)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 67, in gather
+    return gather_map(outputs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 62, in gather_map
+    return type(out)(map(gather_map, zip(*outputs)))
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 54, in gather_map
+    return Gather.apply(target_device, dim, *outputs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/_functions.py", line 68, in forward
+    return comm.gather(inputs, ctx.dim, ctx.target_device)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/cuda/comm.py", line 166, in gather
+    return torch._C._gather(tensors, dim, destination)
+RuntimeError: CUDA out of memory. Tried to allocate 1.05 GiB (GPU 0; 7.93 GiB total capacity; 2.87 GiB already allocated; 195.56 MiB free; 41.24 MiB cached) (malloc at /pytorch/aten/src/THC/THCCachingAllocator.cpp:231)
+frame #0: std::function<std::string ()>::operator()() const + 0x11 (0x7faae9224021 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #1: c10::Error::Error(c10::SourceLocation, std::string const&) + 0x2a (0x7faae92238ea in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #2: <unknown function> + 0x13ddfe5 (0x7faa82ed7fe5 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #3: <unknown function> + 0x13ded9a (0x7faa82ed8d9a in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #4: at::native::empty_cuda(c10::ArrayRef<long>, at::TensorOptions const&) + 0x443 (0x7faa8406ab53 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #5: at::CUDAFloatType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x161 (0x7faa82df3301 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #6: torch::autograd::VariableType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x179 (0x7faadcb3f2b9 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch.so.1)
+frame #7: torch::cuda::gather(c10::ArrayRef<at::Tensor>, long, c10::optional<int>) + 0x28b (0x7faae991f2db in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x4ecddc (0x7faae9921ddc in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #9: <unknown function> + 0x11663e (0x7faae954b63e in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #18: THPFunction_apply(_object*, _object*) + 0x5a1 (0x7faae9748961 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Traceback (most recent call last):
+  File "training.py", line 151, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 124, in main
+    metric = evaluate_acc(pairs_test, senses_per_sentence, k_beams=1, verbose=False)
+TypeError: evaluate_acc() got an unexpected keyword argument 'verbose'
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Traceback (most recent call last):
+  File "training.py", line 151, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 124, in main
+    metric = evaluate_acc(pairs_test, senses_per_sentence, k_beams=1, verbose=False)
+TypeError: evaluate_acc() got an unexpected keyword argument 'verbose'
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Traceback (most recent call last):
+  File "training.py", line 151, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 124, in main
+    metric = evaluate_acc(pairs_test, senses_per_sentence, k_beams=1, verbose=False)
+TypeError: evaluate_acc() got an unexpected keyword argument 'verbose'
+site-packages/torch/nn/parallel/scatter_gather.py", line 62, in gather_map
+    return type(out)(map(gather_map, zip(*outputs)))
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 54, in gather_map
+    return Gather.apply(target_device, dim, *outputs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/_functions.py", line 68, in forward
+    return comm.gather(inputs, ctx.dim, ctx.target_device)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/cuda/comm.py", line 166, in gather
+    return torch._C._gather(tensors, dim, destination)
+RuntimeError: CUDA out of memory. Tried to allocate 1.14 GiB (GPU 0; 7.93 GiB total capacity; 1.75 GiB already allocated; 187.56 MiB free; 38.36 MiB cached) (malloc at /pytorch/aten/src/THC/THCCachingAllocator.cpp:231)
+frame #0: std::function<std::string ()>::operator()() const + 0x11 (0x7f800a169021 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #1: c10::Error::Error(c10::SourceLocation, std::string const&) + 0x2a (0x7f800a1688ea in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #2: <unknown function> + 0x13ddfe5 (0x7f7fa6334fe5 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #3: <unknown function> + 0x13ded9a (0x7f7fa6335d9a in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #4: at::native::empty_cuda(c10::ArrayRef<long>, at::TensorOptions const&) + 0x443 (0x7f7fa74c7b53 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #5: at::CUDAFloatType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x161 (0x7f7fa6250301 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #6: torch::autograd::VariableType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x179 (0x7f800053f2b9 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch.so.1)
+frame #7: torch::cuda::gather(c10::ArrayRef<at::Tensor>, long, c10::optional<int>) + 0x28b (0x7f800152b2db in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x4ecddc (0x7f800152dddc in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #9: <unknown function> + 0x11663e (0x7f800115763e in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #18: THPFunction_apply(_object*, _object*) + 0x5a1 (0x7f8001354961 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+
