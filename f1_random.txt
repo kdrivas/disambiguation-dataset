@@ -1,0 +1,22 @@
+Reading lines...
+Read 72647 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 72618 pairs
+Creating vocab...
+Indexed 7544 words in input language, 70339 words in output
+3m 28s (- 31m 16s) (1 6%) 3.0380
+6m 33s (- 59m 4s) (1 13%) 2.4514
+9m 52s (- 88m 55s) (1 20%) 2.1440
+13m 3s (- 117m 33s) (1 27%) 2.0336
+16m 24s (- 147m 43s) (1 34%) 1.8696
+19m 46s (- 178m 1s) (1 41%) 1.7478
+23m 7s (- 208m 8s) (1 48%) 1.7011
+26m 31s (- 238m 46s) (1 55%) 1.5777
+29m 52s (- 268m 55s) (1 61%) 1.5708
+33m 17s (- 299m 33s) (1 68%) 1.5146
+36m 39s (- 329m 59s) (1 75%) 1.4617
+40m 3s (- 360m 30s) (1 82%) 1.3617
+43m 17s (- 389m 36s) (1 89%) 1.4838
+46m 40s (- 420m 0s) (1 96%) 1.4032
+48m 24s (- 193m 37s) (2 0%) 0.0100
