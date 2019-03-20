@@ -26,14 +26,14 @@ from src.utils import get_stats
 from src.data import prepare_data
 from src.data_loader import get_loader
 from src.evaluator import evaluate_acc
-from src.parallel import DataParallelCriterion
+from src.parallel import DataParallelCriterion, DataParallelModel
 
-def train(input_var, target_var, model, model_optimzier, clip, output_size, train=True):
+def train(input_var, target_var, model,  model_optimzier, clip, output_size, device, train=True):
     
     if train:
         model_optimzier.zero_grad()
-    
-    all_decoder_outputs, target_var = model(input_var, target_var, train)
+
+    all_decoder_outputs, target_var = model(input_var, target_var, device, train)
     loss = nn.NLLLoss()(all_decoder_outputs.view(-1, output_size), target_var.contiguous().view(-1))          
     
     if train:
@@ -73,10 +73,10 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     best_metric = 0
     print_loss_total = 0
     plot_loss_total = 0 
-    
+
+    if cuda: torch.cuda.set_device(cuda_ids[0])
     torch.manual_seed(seed)
     np.random.seed(seed)
-    device = torch.device("cuda" if cuda else "cpu")
 
     input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data('all_f1_lemma', 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
     selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
@@ -84,15 +84,15 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     encoder = Encoder(len(input_lang.vocab.stoi), hidden_size, emb_size, n_layers, dropout_p, USE_CUDA=cuda)
     decoder = Decoder_luong(attn_model, hidden_size, len(output_lang.vocab.stoi), emb_size, 2 * n_layers, dropout_p, USE_CUDA=cuda)
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
-
+    device  = torch.device(cuda_ids[0] if cuda else 'cpu')
     if cuda:
-        model = nn.DataParallel(model, device_ids=cuda_ids).cuda()
+        model = nn.DataParallel(model, device_ids=cuda_ids).to(device)
 
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
     criterion = nn.NLLLoss()
     if cuda:
-        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
+        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).to(device)
 
     train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
     start = time.time()
@@ -108,10 +108,10 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
 
         for batch_ix, (input_var, _, target_var, _) in enumerate(train_loader):
             # Transfer to GPU
-            # input_var, target_var = input_var.to(device), target_var.to(device)
+            input_var, target_var = input_var.cuda(), target_var.cuda() # input_var.to(device), target_var.to(device)
 
             # Run the train function
-            loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)
+            loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, device, train=train)
             torch.cuda.empty_cache()
 
             # Keep track of loss

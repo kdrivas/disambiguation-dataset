@@ -18,24 +18,19 @@ class Seq2seq(nn.Module):
         
         self.USE_CUDA = USE_CUDA
 
-    def forward(self, input_batches, target_batches=[], train=False):
+    def forward(self, input_batches, target_batches=[], device=None, train=False):
         
         batch_size = input_batches.size()[1]
-        encoder_hidden = self.encoder.init_hidden(batch_size)
+        encoder_hidden = self.encoder.init_hidden(batch_size, device)
 
         encoder_outputs, encoder_hidden = self.encoder(input_batches, encoder_hidden)
-        decoder_input = torch.LongTensor([self.input_lang.vocab.stoi['<sos>']] * batch_size)
+        decoder_input = torch.LongTensor([self.input_lang.vocab.stoi['<sos>']] * batch_size).cuda()
     
         decoder_hidden = encoder_hidden
-        decoder_context = torch.zeros(batch_size, self.decoder.hidden_size)
+        decoder_context = torch.zeros(batch_size, self.decoder.hidden_size).cuda()
     
-        all_decoder_outputs = torch.zeros(target_batches.data.size()[0], batch_size, len(self.output_lang.vocab.itos))
+        all_decoder_outputs = torch.zeros(target_batches.data.size()[0], batch_size, len(self.output_lang.vocab.itos)).cuda()
 
-        if self.USE_CUDA:
-            all_decoder_outputs = all_decoder_outputs.cuda()
-            decoder_input = decoder_input.cuda()
-            decoder_context = decoder_context.cuda()
-    
         if train:
             use_teacher_forcing = np.random.random() < self.tf_ratio
         else:
