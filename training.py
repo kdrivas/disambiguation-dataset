@@ -42,7 +42,7 @@ def train(input_var, target_var, model, model_optimzier, clip, output_size, trai
     
     return loss.item() 
 
-def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=10, seed=0):
+def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=6, seed=0):
     
     dir_train = os.path.join(dir_files, 'all')
     dir_test = os.path.join(dir_files, 'test')
