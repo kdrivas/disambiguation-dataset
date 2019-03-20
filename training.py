@@ -26,6 +26,7 @@ from src.utils import get_stats
 from src.data import prepare_data
 from src.data_loader import get_loader
 from src.evaluator import evaluate_acc
+from src.parallel import DataParallelCriterion
 
 def train(input_var, target_var, model, model_optimzier, clip, output_size, train=True):
     
@@ -90,6 +91,8 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
     criterion = nn.NLLLoss()
+    if cuda:
+        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
 
     train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
     start = time.time()
@@ -105,7 +108,7 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
 
         for batch_ix, (input_var, _, target_var, _) in enumerate(train_loader):
             # Transfer to GPU
-            input_var, target_var = input_var.to(device), target_var.to(device)
+            # input_var, target_var = input_var.to(device), target_var.to(device)
 
             # Run the train function
             loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, train=train)
