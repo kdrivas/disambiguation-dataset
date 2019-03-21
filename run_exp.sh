@@ -1,4 +1,4 @@
-CUDA_IDS=[0,1,2,3]
+CUDA_IDS=$1
 MAX_LENGTH=200
 
 python training.py --name_file=all_lemma --cuda=True --max_length=$MAX_LENGTH --cuda_ids=$CUDA_IDS &> all.txt
