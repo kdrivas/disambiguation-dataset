@@ -1,7 +1,5 @@
 # coding: utf-8
 
-
-
 import torch
 import torch.nn as nn
 from torch.nn import functional
@@ -86,13 +84,13 @@ def main(name_file, dir_files='data/disambiguation/', dir_results='results/', ma
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
     device  = torch.device(cuda_ids[0] if cuda else 'cpu')
     if cuda:
-        model = nn.DataParallel(model, device_ids=cuda_ids).to(device)
+        model = nn.DataParallel(model, device_ids=cuda_ids).cuda()
 
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
     criterion = nn.NLLLoss()
     if cuda:
-        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).to(device)
+        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
 
     train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
     start = time.time()
