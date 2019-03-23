@@ -29,7 +29,7 @@ class Encoder(nn.Module):
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, : ,self.hidden_size:] # Sum bidirectional outputs
         return outputs, hidden
     
-    def init_hidden(self, batch_size, device):
+    def init_hidden(self, batch_size):
         hidden = torch.zeros(2 * self.n_layers, batch_size, self.hidden_size)
         hidden = hidden.cuda() if self.USE_CUDA else hidden
         return hidden

@@ -21,7 +21,7 @@ class Seq2seq(nn.Module):
     def forward(self, input_batches, target_batches=[], device=None, train=False):
         
         batch_size = input_batches.size()[1]
-        encoder_hidden = self.encoder.init_hidden(batch_size, device)
+        encoder_hidden = self.encoder.init_hidden(batch_size)
 
         encoder_outputs, encoder_hidden = self.encoder(input_batches, encoder_hidden)
         decoder_input = torch.LongTensor([self.input_lang.vocab.stoi['<sos>']] * batch_size).cuda()
