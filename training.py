@@ -41,13 +41,12 @@ def train(input_var, target_var, model,  model_optimzier, clip, output_size, dev
     
     return loss.item() 
 
-def main(name_file, dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=6, seed=0):
+def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=6, seed=0):
     
-    dir_train = os.path.join(dir_files, 'all')
-    dir_test = os.path.join(dir_files, 'test')
-    dir_results = os.path.join(dir_results, name_file)
-    if not os.path.exists(dir_results):
-        os.mkdir(dir_results)
+    dir_train = os.path.join(dir_files, train_dir)
+    dir_test = os.path.join(dir_files, test_dir)
+    dir_results = os.path.join(dir_results, train_dir, name_file)
+    os.makedirs(dir_results, exist_ok=True)
     
     attn_model = 'general'
     hidden_size = 512
