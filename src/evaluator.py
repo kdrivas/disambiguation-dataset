@@ -141,7 +141,7 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_syns
             total_reca += 1
             dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
         
-    precision = hint / total_prec
+    precision = (hint / total_prec) if  total_prec != 0 else total_prec = 0.0001
     recall = hint / total_reca
     f1 = 2 * precision * recall / (precision + recall)
     if report:
