@@ -64,7 +64,6 @@ def evaluate(encoder, decoder, input_lang, output_lang, sentence, k_beams, cuda=
                     if ni == input_lang.vocab.stoi['<eos>'] or ni == output_lang.vocab.stoi['<pad>']: 
                         new_beam.decoded_words.append('<EOS>')
                         top_beams.append(new_beam)
-
                     else:
                         new_beam.decoded_words.append(output_lang.vocab.itos[ni])                        
 
@@ -140,8 +139,8 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_syns
                         hint += 1
             total_reca += 1
             dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
-        
-    precision = (hint / total_prec) if  total_prec != 0 else total_prec = 0.0001
+
+    precision = (hint / total_prec) if (total_prec != 0) else 0.00001
     recall = hint / total_reca
     f1 = 2 * precision * recall / (precision + recall)
     if report:
