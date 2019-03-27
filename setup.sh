@@ -32,6 +32,6 @@ rm translation.zip
 mkdir library
 cd library
 
-git clone https://github.com/pytorch/text.git
-cd text
-python setup.py install
+#git clone https://github.com/pytorch/text.git
+#cd text
+#python setup.py install
