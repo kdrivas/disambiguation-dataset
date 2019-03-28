@@ -1,0 +1,128 @@
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Reading lines...
+Read 15484 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 15484 pairs
+Creating vocab...
+Indexed 30512 words in input language, 30318 words in output
+0m 57s (- 4m 49s) (1 16%) 3.8347
+1m 57s (- 9m 48s) (1 32%) 2.5824
+2m 59s (- 14m 59s) (1 48%) 2.3507
+4m 3s (- 20m 18s) (1 64%) 2.3289
+5m 7s (- 25m 38s) (1 80%) 2.1990
+6m 10s (- 30m 54s) (1 96%) 2.1758
+6m 23s (- 12m 47s) (2 0%) 0.0366
+Saving weights
+Validate metric: 0.0015071590052750565
+Validate metric: 0.0015071590052750565
+10m 22s (- 20m 44s) (2 16%) 2.0367
+Saving weights
+Validate metric: 0.008995502248875563
+Saving weights
+Validate metric: 0.010479041916167666
+14m 14s (- 28m 29s) (2 32%) 1.9181
+Saving weights
+Validate metric: 0.01195814648729447
+Saving weights
+Validate metric: 0.019330855018587362
+18m 0s (- 36m 0s) (2 48%) 1.8352
+Validate metric: 0.00892857142857143
+Validate metric: 0.014936519790888723
+21m 45s (- 43m 30s) (2 64%) 1.7940
+Validate metric: 0.013442867811799852
+Validate metric: 0.014947683109118088
+25m 13s (- 50m 27s) (2 80%) 1.7143
+Validate metric: 0.01792382374906647
+Validate metric: 0.01347305389221557
+32m 5s (- 64m 11s) (2 96%) 1.6906
+Validate metric: 0.011976047904191617
+33m 11s (- 33m 11s) (3 0%) 0.0234
+Validate metric: 0.0059970014992503755
+Validate metric: 0.008988764044943821
+36m 34s (- 36m 34s) (3 16%) 1.3979
+Validate metric: 0.019287833827893175
+Saving weights
+Validate metric: 0.020833333333333336
+40m 46s (- 40m 46s) (3 32%) 1.3871
+Validate metric: 0.013452914798206279
+Saving weights
+Validate metric: 0.029197080291970802
+45m 22s (- 45m 22s) (3 48%) 1.2923
+Validate metric: 0.01924500370096225
+Validate metric: 0.022172949002217297
+49m 16s (- 49m 16s) (3 64%) 1.2926
+Validate metric: 0.004487658937920719
+Validate metric: 0.010424422933730455
+53m 5s (- 53m 5s) (3 80%) 1.2019
+Validate metric: 0.017751479289940832
+Validate metric: 0.005983545250560957
+56m 1s (- 56m 1s) (3 96%) 1.1376
+Validate metric: 0.02066420664206642
+57m 10s (- 28m 35s) (4 0%) 0.0140
+Validate metric: 0.019061583577712607
+Validate metric: 0.02909090909090909
+60m 39s (- 30m 19s) (4 16%) 0.9785
+Validate metric: 0.029175784099197664
+Saving weights
+Validate metric: 0.05113636363636363
+63m 51s (- 31m 55s) (4 32%) 0.8892
+Validate metric: 0.03138373751783167
+Validate metric: 0.04338394793926247
+67m 40s (- 33m 50s) (4 48%) 0.7746
+Validate metric: 0.03558718861209965
+Validate metric: 0.04384724186704385
+72m 6s (- 36m 3s) (4 64%) 0.7675
+Saving weights
+Validate metric: 0.07883817427385893
+Validate metric: 0.04805653710247349
+77m 49s (- 38m 54s) (4 80%) 0.7670
+Validate metric: 0.030634573304157548
+Validate metric: 0.07228915662650603
+81m 26s (- 40m 43s) (4 96%) 0.7167
+Validate metric: 0.04539007092198582
+83m 19s (- 16m 39s) (5 0%) 0.0168
+Validate metric: 0.04261363636363637
+Validate metric: 0.07629427792915532
+87m 20s (- 17m 28s) (5 16%) 0.4856
+Saving weights
+Validate metric: 0.09212283044058747
+Validate metric: 0.06693440428380187
+91m 2s (- 18m 12s) (5 32%) 0.5401
+Validate metric: 0.08985704560925799
+Saving weights
+Validate metric: 0.09435215946843854
+95m 11s (- 19m 2s) (5 48%) 0.5668
+Validate metric: 0.06114130434782608
+Validate metric: 0.07377598926894702
+99m 5s (- 19m 49s) (5 64%) 0.5987
+Validate metric: 0.06486486486486487
+Validate metric: 0.07422402159244264
+104m 11s (- 20m 50s) (5 80%) 0.4833
+Validate metric: 0.07667316439246263
+Validate metric: 0.0443213296398892
+109m 20s (- 21m 52s) (5 96%) 0.4889
+Validate metric: 0.07830126078301261
+112m 1s (- 0m 0s) (6 0%) 0.0076
+Validate metric: 0.08783783783783783
+Saving weights
+Validate metric: 0.10707204230006609
+116m 9s (- 0m 0s) (6 16%) 0.3632
+Validate metric: 0.09066305818673884
+Validate metric: 0.08093278463648834
+120m 51s (- 0m 0s) (6 32%) 0.3790
+Validate metric: 0.07687028140013727
+Validate metric: 0.08441116405718176
+124m 50s (- 0m 0s) (6 48%) 0.3840
+Validate metric: 0.06568364611260054
+Validate metric: 0.05925925925925927
+129m 51s (- 0m 0s) (6 64%) 0.4728
+Validate metric: 0.035837353549276356
+Validate metric: 0.06340819022457067
+133m 40s (- 0m 0s) (6 80%) 0.3553
+Validate metric: 0.06221045665122436
+Validate metric: 0.054719562243502044
+137m 2s (- 0m 0s) (6 96%) 0.4218
+Validate metric: 0.07003367003367003
+f1 score: 0.10707204230006609 precision: 0.43315508021390375 recall: 0.06108597285067873

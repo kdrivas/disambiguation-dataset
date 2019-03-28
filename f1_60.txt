@@ -1,0 +1,21 @@
+Reading lines...
+Read 46453 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 46453 pairs
+Creating vocab...
+Indexed 59972 words in input language, 59304 words in output
+Traceback (most recent call last):
+  File "training.py", line 157, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 79, in main
+    selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/numpy/lib/npyio.py", line 384, in load
+    fid = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: 'data/disambiguation/selected_synsets.npy'

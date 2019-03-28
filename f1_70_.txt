@@ -1,0 +1,43 @@
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+Reading lines...
+Read 54196 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 54195 pairs
+Creating vocab...
+Indexed 64611 words in input language, 63839 words in output
+1m 35s (- 7m 59s) (1 4%) 3.5707
+3m 2s (- 15m 14s) (1 9%) 2.8013
+4m 33s (- 22m 48s) (1 13%) 2.5095
+6m 3s (- 30m 15s) (1 18%) 2.5045
+7m 36s (- 38m 0s) (1 23%) 2.3255
+9m 4s (- 45m 22s) (1 27%) 2.2521
+10m 35s (- 52m 56s) (1 32%) 2.1138
+12m 6s (- 60m 31s) (1 36%) 1.9116
+13m 38s (- 68m 10s) (1 41%) 1.8708
+15m 5s (- 75m 27s) (1 46%) 1.7232
+16m 35s (- 82m 58s) (1 50%) 1.5231
+18m 7s (- 90m 38s) (1 55%) 1.3797
+19m 39s (- 98m 15s) (1 59%) 1.4018
+21m 11s (- 105m 55s) (1 64%) 1.3118
+Traceback (most recent call last):
+  File "training.py", line 157, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 111, in main
+    loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, device, train=train)
+  File "training.py", line 38, in train
+    loss.backward()
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/tensor.py", line 102, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/autograd/__init__.py", line 90, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+RuntimeError: CUDA out of memory. Tried to allocate 2.95 GiB (GPU 0; 10.92 GiB total capacity; 8.19 GiB already allocated; 1.86 GiB free; 185.28 MiB cached)

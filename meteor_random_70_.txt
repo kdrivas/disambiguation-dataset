@@ -1,0 +1,1 @@
+run_exp_2.sh: line 18: /home/shared/aoncevay/miniconda3/envs/wsd/bin/python: Input/output error
