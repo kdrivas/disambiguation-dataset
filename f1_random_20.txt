@@ -1,4 +1,4 @@
-/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
   warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
 Reading lines...
 Read 15484 train pairs
@@ -6,118 +6,36 @@ Reading lines...
 Read 2270 test pairs
 Filtered to 15484 pairs
 Creating vocab...
-Indexed 30512 words in input language, 30318 words in output
-0m 56s (- 4m 44s) (1 16%) 3.6613
-1m 56s (- 9m 43s) (1 32%) 2.6664
-2m 57s (- 14m 45s) (1 48%) 2.3053
-3m 58s (- 19m 50s) (1 64%) 2.2681
-4m 59s (- 24m 55s) (1 80%) 2.2196
-5m 58s (- 29m 54s) (1 96%) 2.1488
-6m 11s (- 12m 22s) (2 0%) 0.0387
-Validate metric: 0
-Saving weights
-Validate metric: 0.0030120481927710845
-10m 52s (- 21m 45s) (2 16%) 2.0339
-Saving weights
-Validate metric: 0.004511278195488722
-Saving weights
-Validate metric: 0.013462976813762155
-15m 3s (- 30m 6s) (2 32%) 1.8355
-Validate metric: 0.010471204188481676
-Validate metric: 0.008995502248875563
-20m 17s (- 40m 34s) (2 48%) 1.8059
-Validate metric: 0.010471204188481676
-Validate metric: 0.013432835820895522
-23m 40s (- 47m 20s) (2 64%) 1.7842
-Validate metric: 0.010378057820607859
-Saving weights
-Validate metric: 0.014914243102162566
-26m 53s (- 53m 47s) (2 80%) 1.6591
-Saving weights
-Validate metric: 0.028002947678703025
-Validate metric: 0.02077151335311573
-31m 5s (- 62m 10s) (2 96%) 1.6558
-Validate metric: 0.020710059171597635
-32m 25s (- 32m 25s) (3 0%) 0.0233
-Validate metric: 0
-Validate metric: 0.01486988847583643
-36m 1s (- 36m 1s) (3 16%) 1.3636
-Validate metric: 0.008915304606240715
-Validate metric: 0.01194921583271098
-39m 7s (- 39m 7s) (3 32%) 1.3476
-Validate metric: 0.007440476190476191
-Validate metric: 0.005943536404160476
-42m 39s (- 42m 39s) (3 48%) 1.2525
-Validate metric: 0.00447427293064877
-Validate metric: 0.010378057820607859
-46m 15s (- 46m 15s) (3 64%) 1.1876
-Validate metric: 0.004464285714285715
-Validate metric: 0.0029895366218236174
-49m 21s (- 49m 21s) (3 80%) 1.1135
-Validate metric: 0.002978406552494416
-Validate metric: 0.008843036109064112
-52m 10s (- 52m 10s) (3 96%) 1.0721
-Validate metric: 0.013062409288824383
-54m 2s (- 27m 1s) (4 0%) 0.0157
-Validate metric: 0.005843681519357195
-Validate metric: 0.0073421439060205596
-57m 10s (- 28m 35s) (4 16%) 0.9346
-Validate metric: 0.008823529411764706
-Validate metric: 0.021865889212827987
-60m 31s (- 30m 15s) (4 32%) 0.7622
-Validate metric: 0.011560693641618498
-Validate metric: 0.01739130434782609
-64m 1s (- 32m 0s) (4 48%) 0.6638
-Validate metric: 0.021520803443328552
-Validate metric: 0.01881331403762663
-69m 41s (- 34m 50s) (4 64%) 0.7142
-Saving weights
-Validate metric: 0.03538570417551309
-Validate metric: 0.023171614771904415
-73m 12s (- 36m 36s) (4 80%) 0.7379
-Validate metric: 0.02177068214804064
-Validate metric: 0.024655547498187092
-76m 12s (- 38m 6s) (4 96%) 0.6456
-Validate metric: 0.016985138004246284
-78m 3s (- 15m 36s) (5 0%) 0.0159
-Validate metric: 0.02005730659025788
-Validate metric: 0.01597676107480029
-81m 43s (- 16m 20s) (5 16%) 0.4673
-Validate metric: 0.021723388848660388
-Validate metric: 0.01878612716763006
-85m 46s (- 17m 9s) (5 32%) 0.4813
-Saving weights
-Validate metric: 0.05296167247386759
-Validate metric: 0.0378416257883672
-91m 8s (- 18m 13s) (5 48%) 0.5041
-Validate metric: 0.02857142857142857
-Validate metric: 0.019957234497505347
-94m 29s (- 18m 53s) (5 64%) 0.5305
-Validate metric: 0.02021660649819495
-Validate metric: 0.017118402282453638
-97m 38s (- 19m 31s) (5 80%) 0.4354
-Validate metric: 0.035976015989340436
-Validate metric: 0.03344947735191638
-101m 53s (- 20m 22s) (5 96%) 0.4944
-Validate metric: 0.02651779483600837
-103m 37s (- 0m 0s) (6 0%) 0.0066
-Validate metric: 0.019928825622775804
-Validate metric: 0.04064470918009811
-107m 16s (- 0m 0s) (6 16%) 0.3711
-Validate metric: 0.02144388849177984
-Validate metric: 0.034482758620689655
-111m 26s (- 0m 0s) (6 32%) 0.3679
-Validate metric: 0.025659301496792585
-Validate metric: 0.032716927453769556
-114m 57s (- 0m 0s) (6 48%) 0.3743
-Validate metric: 0.018465909090909092
-Validate metric: 0.01550387596899225
-118m 14s (- 0m 0s) (6 64%) 0.5302
-Validate metric: 0.014336917562724013
-Validate metric: 0.03929539295392954
-121m 31s (- 0m 0s) (6 80%) 0.3342
-Validate metric: 0.036986301369863014
-Validate metric: 0.019900497512437814
-127m 43s (- 0m 0s) (6 96%) 0.3725
-Validate metric: 0.026931254429482635
-f1 score: 0.05296167247386759 precision: 0.3486238532110092 recall: 0.02865761689291101
+Indexed 32906 words in input language, 32591 words in output
+['solicitacoes do grupo de trabalho aberto para realizar uma organizacionais sessao, a fim de definir as datas para o substantivo sessoes, em 2006 , e a apresentar um relatorio sobre o seu trabalho , incluindo possiveis substantivo recomendacoes , antes do final da sexagesima sessao da assembleia geral ;'
+ 'solicitacoes do grupo de trabalho aberto para realizar uma organizacionais sessao, a fim de definir as datas para o substantivo sessoes, em 2006 , e a apresentar um relatorio sobre o seu trabalho , incluindo possiveis substantivo recomendacoes , antes do final da sexagesima sessao da assembleia geral ;']
+Traceback (most recent call last):
+  File "training.py", line 157, in <module>
+    fire.Fire(main)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 111, in main
+    loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, device, train=train)
+  File "training.py", line 34, in train
+    all_decoder_outputs, target_var = model(input_var, target_var, device, train)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 141, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/krivas/disambiguation-dataset/model/seq2seq.py", line 51, in forward
+    decoder_input.unsqueeze(0), decoder_context, decoder_hidden, encoder_outputs) 
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/krivas/disambiguation-dataset/model/decoder.py", line 109, in forward
+    rnn_output, hidden = self.rnn(embedded, last_hidden)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/krivas/anaconda3/lib/python3.7/site-packages/torch/nn/modules/rnn.py", line 179, in forward
+    self.dropout, self.training, self.bidirectional, self.batch_first)
+RuntimeError: CUDA out of memory. Tried to allocate 28.50 MiB (GPU 0; 11.91 GiB total capacity; 1.25 GiB already allocated; 9.81 MiB free; 22.39 MiB cached)

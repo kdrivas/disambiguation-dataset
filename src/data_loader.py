@@ -89,7 +89,7 @@ def get_loader(pairs, src_word2id, trg_word2id, batch_size=100):
     # please see collate_fn for details
     data_loader = torch.utils.data.DataLoader(dataset=dataset,
                                               batch_size=batch_size,
-                                              shuffle=True,
+                                              shuffle=False,
                                               collate_fn=collate_fn)
 
     return data_loader
