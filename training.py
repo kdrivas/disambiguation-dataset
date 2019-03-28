@@ -75,9 +75,9 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
     torch.manual_seed(seed)
     np.random.seed(seed)
 
-    input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data('all_f1_lemma', 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
+    input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data(name_file, 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
     selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
-    
+    print(pairs_train[0])
     encoder = Encoder(len(input_lang.vocab.stoi), hidden_size, emb_size, n_layers, dropout_p, USE_CUDA=cuda)
     decoder = Decoder_luong(attn_model, hidden_size, len(output_lang.vocab.stoi), emb_size, 2 * n_layers, dropout_p, USE_CUDA=cuda)
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
