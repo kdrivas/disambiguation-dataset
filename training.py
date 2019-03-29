@@ -41,7 +41,7 @@ def train(input_var, target_var, model,  model_optimzier, clip, output_size, dev
     
     return loss.item() 
 
-def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=6, seed=0):
+def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=10, seed=0):
     
     dir_train = os.path.join(dir_files, train_dir)
     dir_test = os.path.join(dir_files, test_dir)
@@ -62,14 +62,14 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
     start_eval = 5
     print_every = 50
     validate_loss_every = 100
-    evaluate_every = 25
+    evaluate_every = 50
 
     train_losses = []
     validation_losses = []
     validation_acc = []
     best_metric = 0
     print_loss_total = 0
-    plot_loss_total = 0 
+    plot_loss_total = 0
 
     if cuda: torch.cuda.set_device(cuda_ids[0])
     torch.manual_seed(seed)
@@ -77,7 +77,7 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
 
     input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data(name_file, 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
     selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
-    print(pairs_train[0])
+    print(pairs_train[-1])
     encoder = Encoder(len(input_lang.vocab.stoi), hidden_size, emb_size, n_layers, dropout_p, USE_CUDA=cuda)
     decoder = Decoder_luong(attn_model, hidden_size, len(output_lang.vocab.stoi), emb_size, 2 * n_layers, dropout_p, USE_CUDA=cuda)
     model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
@@ -88,8 +88,8 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
     learning_rate = 0.001
     model_optimizer = optim.Adam(model.parameters())
     criterion = nn.NLLLoss()
-    if cuda:
-        criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
+    #if cuda:
+    #    criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
 
     train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
     start = time.time()
@@ -124,7 +124,7 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
                 train_losses.append(loss)
                 print(print_summary)
 
-            if epoch >= 2 and batch_ix % evaluate_every == 0:
+            if epoch >= 4 and batch_ix % evaluate_every == 0:
                 model.eval()
 
                 metric = evaluate_acc(encoder, decoder, input_lang, output_lang, pairs_test, selected_synsets, senses_per_sentence, k_beams=1, report=False, max_length=max_length, cuda=cuda)
