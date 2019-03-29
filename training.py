@@ -128,7 +128,7 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
                 model.eval()
 
                 metric = evaluate_acc(encoder, decoder, input_lang, output_lang, pairs_test, selected_synsets, senses_per_sentence, k_beams=1, report=False, max_length=max_length, cuda=cuda)
-                if metric > best_metric:
+                if metric >= best_metric:
                     best_metric = metric
                     torch.save(model.state_dict(), f'{dir_results}/seq2seq.pkl')
                     torch.save(encoder.state_dict(), f'{dir_results}/enc.pkl')
