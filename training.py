@@ -41,7 +41,7 @@ def train(input_var, target_var, model,  model_optimzier, clip, output_size, dev
     
     return loss.item() 
 
-def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=10, seed=0):
+def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=13, seed=0):
     
     dir_train = os.path.join(dir_files, train_dir)
     dir_test = os.path.join(dir_files, test_dir)
@@ -49,7 +49,7 @@ def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambigua
     os.makedirs(dir_results, exist_ok=True)
     
     attn_model = 'general'
-    hidden_size = 512
+    hidden_size = 712
     emb_size = 400
     n_layers = 2
     seed = 12
