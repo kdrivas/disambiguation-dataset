@@ -5,6 +5,7 @@ from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
 import numpy as np
+import pandas as pd
 
 from sklearn.metrics import classification_report
 from src.data import variable_from_sentence
