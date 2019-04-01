@@ -5,7 +5,9 @@ from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
 import numpy as np
+import pandas as pd
 
+from sklearn.metrics import classification_report
 from src.data import variable_from_sentence
 
 MAX_LENGTH = 100
@@ -117,6 +119,8 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_syns
             'ser_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0}}
         
     hint = 0
+    preds = []
+    reals = []
     total_prec = 0
     total_reca = 0
 
@@ -130,24 +134,29 @@ def evaluate_acc(encoder, decoder, input_lang, output_lang, pairs, selected_syns
         for pos, sense in senses:
             if len(output_words) > pos:  
                 pred = output_words[pos]
+                preds.append(pred)
                 if pred in selected_synsets:
                     dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
-
                     total_prec += 1
                     if sense == pred:
                         dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
                         hint += 1
+            else:
+                preds.append('none')
+            reals.append(sense)
             total_reca += 1
             dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
 
-    precision = (hint / total_prec) if hint else 0
-    recall = (hint / total_reca) if hint else 0
-    f1 = (2 * precision * recall / (precision + recall)) if ((precision > 0) and (recall > 0)) else 0
+    results = classification_report(reals, preds, labels=list(set(reals)), output_dict=True)
+    results = pd.DataFrame(results).transpose()
+    f1 = results.iloc[-2]['f1-score']
+    precision = results.iloc[-2]['precision']
+    recall = results.iloc[-2]['recall']
+    
     if report:
         return f1, precision, recall, dict_pt_verbs
     else:
         return f1
-        
         
 def evaluate_randomly(encoder, decoder, input_lang, output_lang, pairs):
     pair = random.choice(pairs)
