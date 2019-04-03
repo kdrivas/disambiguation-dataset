@@ -1,0 +1,616 @@
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+Reading lines...
+Read 54196 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 54017 pairs
+Creating vocab...
+Indexed 61519 words in input language, 60743 words in output
+['na parte da tarde , os advogados de defesa comecar_tag a apresentacao de seus casos com declaracoes de abertura , algumas das quais tinham sido adiado ate depois de o governo ter chamado de testemunhas e apresentou o seu caso .'
+ 'na parte da tarde , os advogados de defesa 00348746 a apresentacao de seus casos com declaracoes de abertura , algumas das quais tinham sido adiado ate depois de o governo ter chamado de testemunhas e apresentou o seu caso .']
+2m 0s (- 28m 6s) (1 4%) 4.0945
+3m 53s (- 54m 23s) (1 9%) 3.1158
+5m 46s (- 80m 48s) (1 13%) 2.9077
+7m 38s (- 107m 0s) (1 18%) 2.7494
+9m 29s (- 132m 50s) (1 23%) 2.4340
+11m 17s (- 158m 8s) (1 27%) 2.3451
+13m 9s (- 184m 8s) (1 32%) 2.1496
+14m 59s (- 209m 50s) (1 37%) 1.9010
+16m 49s (- 235m 31s) (1 41%) 1.7278
+18m 40s (- 261m 25s) (1 46%) 1.4704
+20m 33s (- 287m 47s) (1 50%) 1.4074
+21m 57s (- 307m 27s) (1 55%) 1.2191
+23m 15s (- 325m 40s) (1 60%) 1.1566
+24m 30s (- 343m 6s) (1 64%) 0.9399
+25m 48s (- 361m 12s) (1 69%) 0.8552
+27m 1s (- 378m 19s) (1 74%) 0.8152
+28m 13s (- 395m 12s) (1 78%) 0.7242
+29m 35s (- 414m 13s) (1 83%) 0.6470
+31m 6s (- 435m 25s) (1 87%) 0.8109
+32m 35s (- 456m 21s) (1 92%) 0.5903
+34m 6s (- 477m 33s) (1 97%) 0.6282
+35m 0s (- 227m 35s) (2 0%) 0.0199
+36m 53s (- 239m 49s) (2 4%) 0.8857
+38m 45s (- 251m 55s) (2 9%) 0.7503
+40m 37s (- 264m 0s) (2 13%) 0.6295
+42m 28s (- 276m 3s) (2 18%) 0.5669
+44m 18s (- 287m 59s) (2 23%) 0.5067
+46m 6s (- 299m 42s) (2 27%) 0.4338
+47m 56s (- 311m 35s) (2 32%) 0.4676
+49m 45s (- 323m 28s) (2 37%) 0.4381
+51m 35s (- 335m 21s) (2 41%) 0.4548
+53m 27s (- 347m 28s) (2 46%) 0.4576
+55m 20s (- 359m 41s) (2 50%) 0.4080
+56m 44s (- 368m 50s) (2 55%) 0.3064
+58m 2s (- 377m 15s) (2 60%) 0.2331
+59m 16s (- 385m 19s) (2 64%) 0.2334
+60m 33s (- 393m 40s) (2 69%) 0.2452
+61m 47s (- 401m 40s) (2 74%) 0.2209
+62m 59s (- 409m 26s) (2 78%) 0.2378
+64m 19s (- 418m 6s) (2 83%) 0.2921
+65m 49s (- 427m 53s) (2 87%) 0.4248
+67m 17s (- 437m 23s) (2 92%) 0.3019
+68m 46s (- 447m 4s) (2 97%) 0.2863
+69m 39s (- 278m 39s) (3 0%) 0.0134
+71m 30s (- 286m 2s) (3 4%) 0.4384
+73m 21s (- 293m 24s) (3 9%) 0.3149
+75m 12s (- 300m 49s) (3 13%) 0.3161
+77m 1s (- 308m 7s) (3 18%) 0.3180
+78m 50s (- 315m 22s) (3 23%) 0.2745
+80m 37s (- 322m 31s) (3 27%) 0.3220
+82m 27s (- 329m 49s) (3 32%) 0.3844
+84m 16s (- 337m 5s) (3 37%) 0.2583
+86m 4s (- 344m 17s) (3 41%) 0.2624
+87m 53s (- 351m 34s) (3 46%) 0.2747
+89m 44s (- 358m 57s) (3 50%) 0.2555
+91m 6s (- 364m 27s) (3 55%) 0.1239
+92m 22s (- 369m 30s) (3 60%) 0.1069
+93m 35s (- 374m 23s) (3 64%) 0.1015
+94m 52s (- 379m 29s) (3 69%) 0.1397
+96m 5s (- 384m 21s) (3 74%) 0.1144
+97m 16s (- 389m 7s) (3 78%) 0.1084
+98m 37s (- 394m 28s) (3 83%) 0.1386
+100m 5s (- 400m 23s) (3 87%) 0.1913
+101m 35s (- 406m 21s) (3 92%) 0.1866
+103m 6s (- 412m 25s) (3 97%) 0.2240
+103m 59s (- 285m 59s) (4 0%) 0.0112
+Saving weights
+Validate metric: 0.04867296794054902
+107m 20s (- 295m 11s) (4 4%) 0.3707
+Validate metric: 0.04652597160088203
+110m 29s (- 303m 52s) (4 9%) 0.2757
+Validate metric: 0.0396908249841446
+113m 36s (- 312m 24s) (4 13%) 0.2689
+Validate metric: 0.04625132120489649
+116m 47s (- 321m 9s) (4 18%) 0.2380
+Validate metric: 0.0411303294970928
+120m 3s (- 330m 9s) (4 23%) 0.2314
+Validate metric: 0.04220729786417365
+123m 12s (- 338m 48s) (4 27%) 0.2032
+Validate metric: 0.04625791732340475
+126m 17s (- 347m 18s) (4 32%) 0.2018
+Saving weights
+Validate metric: 0.05059718316957131
+129m 38s (- 356m 31s) (4 37%) 0.1906
+Validate metric: 0.05006137562674995
+132m 45s (- 365m 4s) (4 41%) 0.2034
+Saving weights
+Validate metric: 0.05492357212399578
+135m 59s (- 373m 57s) (4 46%) 0.2283
+Validate metric: 0.028031841245482348
+139m 3s (- 382m 25s) (4 50%) 0.2439
+Validate metric: 0.03760458720475691
+141m 51s (- 390m 6s) (4 55%) 0.1252
+Validate metric: 0.04241826731932509
+144m 18s (- 396m 50s) (4 60%) 0.0915
+Validate metric: 0.03579743264898083
+146m 42s (- 403m 27s) (4 64%) 0.1146
+Validate metric: 0.04077140512843842
+149m 8s (- 410m 9s) (4 69%) 0.0951
+Validate metric: 0.039601216944420425
+151m 33s (- 416m 46s) (4 74%) 0.0972
+Validate metric: 0.04645635407009996
+153m 54s (- 423m 15s) (4 78%) 0.0843
+Validate metric: 0.03542982795744297
+156m 27s (- 430m 14s) (4 83%) 0.1434
+Validate metric: 0.03543765217321377
+159m 6s (- 437m 32s) (4 87%) 0.1673
+Validate metric: 0.045468150196758365
+161m 43s (- 444m 43s) (4 92%) 0.1551
+Validate metric: 0.04541183077448767
+164m 26s (- 452m 11s) (4 97%) 0.1442
+Validate metric: 0.04490089939855133
+166m 30s (- 333m 1s) (5 0%) 0.0029
+Validate metric: 0.04995766798208552
+169m 29s (- 338m 58s) (5 4%) 0.2960
+Validate metric: 0.039668490965456896
+172m 39s (- 345m 19s) (5 9%) 0.3309
+Validate metric: 0.036944208334022795
+175m 44s (- 351m 29s) (5 13%) 0.3057
+Validate metric: 0.037275304021369256
+178m 43s (- 357m 27s) (5 18%) 0.2729
+Validate metric: 0.036490258128313344
+181m 45s (- 363m 31s) (5 23%) 0.2096
+Validate metric: 0.03799127690037471
+184m 44s (- 369m 29s) (5 27%) 0.2285
+Validate metric: 0.03784231256297034
+187m 47s (- 375m 34s) (5 32%) 0.1837
+Validate metric: 0.04501705042706222
+190m 50s (- 381m 41s) (5 37%) 0.1702
+Validate metric: 0.047724628694118906
+193m 56s (- 387m 52s) (5 41%) 0.2261
+Validate metric: 0.04337560703425658
+196m 59s (- 393m 59s) (5 46%) 0.2468
+Validate metric: 0.03452724386553779
+200m 0s (- 400m 1s) (5 50%) 0.1977
+Validate metric: 0.03673866586477515
+202m 40s (- 405m 20s) (5 55%) 0.1224
+Validate metric: 0.03800384161950385
+205m 4s (- 410m 9s) (5 60%) 0.1237
+Validate metric: 0.04055769086308442
+207m 28s (- 414m 56s) (5 64%) 0.1223
+Validate metric: 0.03824464227883097
+209m 55s (- 419m 50s) (5 69%) 0.1038
+Validate metric: 0.036852231118213966
+212m 24s (- 424m 49s) (5 74%) 0.0880
+Validate metric: 0.038472893857725024
+214m 50s (- 429m 41s) (5 78%) 0.0794
+Validate metric: 0.041439216347159795
+217m 21s (- 434m 42s) (5 83%) 0.0779
+Validate metric: 0.041476169980510645
+220m 3s (- 440m 7s) (5 87%) 0.1690
+Validate metric: 0.04858435775890945
+222m 56s (- 445m 53s) (5 92%) 0.1891
+Validate metric: 0.04399443504938143
+225m 54s (- 451m 49s) (5 97%) 0.1550
+Validate metric: 0.04075100355771139
+228m 6s (- 342m 10s) (6 0%) 0.0086
+Saving weights
+Validate metric: 0.0565139701109368
+231m 33s (- 347m 19s) (6 4%) 0.3207
+Validate metric: 0.04294526260067775
+234m 40s (- 352m 0s) (6 9%) 0.2671
+Validate metric: 0.04419988864945272
+237m 46s (- 356m 39s) (6 13%) 0.2993
+Validate metric: 0.04151782119662455
+240m 53s (- 361m 19s) (6 18%) 0.2639
+Validate metric: 0.042049774450247705
+243m 54s (- 365m 51s) (6 23%) 0.2302
+Validate metric: 0.04352202141785003
+246m 54s (- 370m 21s) (6 27%) 0.2055
+Validate metric: 0.04502518543677749
+249m 57s (- 374m 56s) (6 32%) 0.2509
+Validate metric: 0.04306396913923581
+253m 7s (- 379m 41s) (6 37%) 0.2888
+Validate metric: 0.038636622066366116
+256m 19s (- 384m 28s) (6 41%) 0.2186
+Validate metric: 0.041848897642567676
+259m 22s (- 389m 4s) (6 46%) 0.2063
+Validate metric: 0.04019054435443232
+262m 23s (- 393m 35s) (6 50%) 0.2682
+Validate metric: 0.046215818591336486
+265m 12s (- 397m 48s) (6 55%) 0.1576
+Validate metric: 0.053661239047326365
+267m 38s (- 401m 27s) (6 60%) 0.1185
+Validate metric: 0.04026143314124489
+270m 3s (- 405m 5s) (6 64%) 0.0968
+Validate metric: 0.055933933484181096
+272m 32s (- 408m 48s) (6 69%) 0.1015
+Validate metric: 0.0518722038035867
+274m 55s (- 412m 23s) (6 74%) 0.0806
+Validate metric: 0.053461501076406945
+277m 20s (- 416m 0s) (6 78%) 0.0749
+Validate metric: 0.052681776756786376
+279m 53s (- 419m 50s) (6 83%) 0.0870
+Validate metric: 0.05188885993244035
+282m 35s (- 423m 53s) (6 87%) 0.1795
+Validate metric: 0.04601185763112965
+285m 15s (- 427m 53s) (6 92%) 0.1772
+Validate metric: 0.04567590485870116
+287m 54s (- 431m 51s) (6 97%) 0.1454
+Validate metric: 0.04303479062498113
+289m 58s (- 331m 24s) (7 0%) 0.0094
+Validate metric: 0.043404522550256945
+293m 0s (- 334m 51s) (7 4%) 0.3164
+Validate metric: 0.05039893810710796
+296m 30s (- 338m 52s) (7 9%) 0.3347
+Validate metric: 0.0415136423056578
+299m 47s (- 342m 37s) (7 13%) 0.2081
+Validate metric: 0.044146490339661976
+303m 3s (- 346m 21s) (7 18%) 0.2411
+Validate metric: 0.05458264662812573
+306m 8s (- 349m 52s) (7 23%) 0.2192
+Validate metric: 0.052209202991663387
+309m 5s (- 353m 15s) (7 27%) 0.2388
+Validate metric: 0.05060407542530077
+311m 55s (- 356m 29s) (7 32%) 0.2575
+Validate metric: 0.04502144051947426
+315m 3s (- 360m 3s) (7 37%) 0.2321
+Validate metric: 0.04709840850598897
+318m 15s (- 363m 43s) (7 41%) 0.2096
+Validate metric: 0.043313958552175194
+321m 23s (- 367m 18s) (7 46%) 0.1988
+Validate metric: 0.039626779916827906
+324m 25s (- 370m 46s) (7 50%) 0.2762
+Validate metric: 0.04423199666493405
+327m 15s (- 374m 0s) (7 55%) 0.1295
+Validate metric: 0.04016064028110049
+329m 43s (- 376m 49s) (7 60%) 0.0764
+Validate metric: 0.049073707646003
+332m 8s (- 379m 35s) (7 64%) 0.0750
+Validate metric: 0.05069361890858502
+334m 35s (- 382m 23s) (7 69%) 0.0776
+Validate metric: 0.05561495311529002
+336m 56s (- 385m 4s) (7 74%) 0.0807
+Validate metric: 0.050618772538521525
+339m 12s (- 387m 40s) (7 78%) 0.0749
+Validate metric: 0.05080297912138293
+341m 40s (- 390m 28s) (7 83%) 0.1186
+Validate metric: 0.05538322819861808
+344m 16s (- 393m 27s) (7 87%) 0.2029
+Validate metric: 0.04589312767472818
+346m 53s (- 396m 27s) (7 92%) 0.1630
+Validate metric: 0.04431111050548597
+349m 36s (- 399m 32s) (7 97%) 0.1492
+Validate metric: 0.052938436504015786
+351m 41s (- 307m 43s) (8 0%) 0.0086
+Saving weights
+Validate metric: 0.05835384297709106
+354m 58s (- 310m 36s) (8 4%) 0.2560
+Validate metric: 0.04647524446145489
+357m 58s (- 313m 13s) (8 9%) 0.2801
+Validate metric: 0.049954768111116654
+361m 1s (- 315m 53s) (8 13%) 0.2741
+Validate metric: 0.048720039752364136
+364m 9s (- 318m 38s) (8 18%) 0.1834
+Validate metric: 0.05014268251045584
+367m 17s (- 321m 22s) (8 23%) 0.1838
+Validate metric: 0.050614775090371746
+370m 19s (- 324m 2s) (8 27%) 0.2554
+Validate metric: 0.04335757205420284
+373m 33s (- 326m 51s) (8 32%) 0.2115
+Validate metric: 0.046150451331666106
+376m 47s (- 329m 41s) (8 37%) 0.2661
+Validate metric: 0.04769785343941968
+379m 53s (- 332m 24s) (8 41%) 0.2550
+Validate metric: 0.053625000184395956
+383m 3s (- 335m 10s) (8 46%) 0.2736
+Validate metric: 0.03714904925164204
+386m 10s (- 337m 54s) (8 50%) 0.2611
+Validate metric: 0.046789484482740624
+388m 51s (- 340m 15s) (8 55%) 0.1634
+Validate metric: 0.04766388699817697
+391m 16s (- 342m 22s) (8 60%) 0.0904
+Validate metric: 0.042957652311409446
+393m 39s (- 344m 27s) (8 64%) 0.0808
+Validate metric: 0.05483093498640604
+396m 5s (- 346m 34s) (8 69%) 0.0933
+Validate metric: 0.049905875154692594
+398m 27s (- 348m 38s) (8 74%) 0.0755
+Validate metric: 0.04562450042497212
+400m 49s (- 350m 42s) (8 78%) 0.0899
+Validate metric: 0.04853621508755927
+403m 20s (- 352m 55s) (8 83%) 0.1449
+Validate metric: 0.05428647891111991
+406m 0s (- 355m 15s) (8 87%) 0.1462
+Validate metric: 0.05195199337489001
+408m 41s (- 357m 36s) (8 92%) 0.1398
+Validate metric: 0.04983033350682898
+411m 27s (- 360m 1s) (8 97%) 0.1429
+Validate metric: 0.04511927950241557
+413m 39s (- 275m 46s) (9 0%) 0.0056
+Validate metric: 0.04507132237426457
+416m 43s (- 277m 48s) (9 4%) 0.2201
+Validate metric: 0.053714418593380185
+419m 49s (- 279m 53s) (9 9%) 0.2479
+Validate metric: 0.05127590343640908
+422m 48s (- 281m 52s) (9 13%) 0.2584
+Validate metric: 0.05498855799351109
+425m 55s (- 283m 56s) (9 18%) 0.2791
+Validate metric: 0.04529148520845862
+428m 52s (- 285m 55s) (9 23%) 0.2568
+Validate metric: 0.049897221156742874
+431m 50s (- 287m 53s) (9 27%) 0.1821
+Validate metric: 0.04282483158802066
+434m 48s (- 289m 52s) (9 32%) 0.1896
+Validate metric: 0.0546052299114922
+437m 47s (- 291m 51s) (9 37%) 0.2032
+Validate metric: 0.04219328067694412
+440m 41s (- 293m 47s) (9 41%) 0.1814
+Validate metric: 0.04433835333915963
+443m 42s (- 295m 48s) (9 46%) 0.2283
+Validate metric: 0.037125648080553734
+446m 51s (- 297m 54s) (9 50%) 0.2393
+Validate metric: 0.04322419520137803
+449m 31s (- 299m 41s) (9 55%) 0.1313
+Validate metric: 0.04361372595126089
+452m 3s (- 301m 22s) (9 60%) 0.0923
+Validate metric: 0.044143579059983645
+454m 25s (- 302m 56s) (9 64%) 0.0750
+Validate metric: 0.04613763801103101
+456m 52s (- 304m 35s) (9 69%) 0.0873
+Validate metric: 0.04906094067245631
+459m 13s (- 306m 9s) (9 74%) 0.0793
+Validate metric: 0.0494030736280326
+461m 36s (- 307m 44s) (9 78%) 0.1166
+Saving weights
+Validate metric: 0.06407284024453196
+464m 19s (- 309m 33s) (9 83%) 0.0926
+Validate metric: 0.05352926093166073
+466m 56s (- 311m 17s) (9 87%) 0.1636
+Validate metric: 0.04805443348896592
+469m 32s (- 313m 1s) (9 92%) 0.2045
+Validate metric: 0.046413251110469705
+472m 22s (- 314m 55s) (9 97%) 0.1374
+Validate metric: 0.04075183129996623
+474m 26s (- 237m 13s) (10 0%) 0.0026
+Validate metric: 0.047327830907376967
+477m 24s (- 238m 42s) (10 4%) 0.2417
+Validate metric: 0.044862393257507904
+480m 27s (- 240m 13s) (10 9%) 0.2263
+Validate metric: 0.049834222527709325
+483m 24s (- 241m 42s) (10 13%) 0.2804
+Validate metric: 0.03814245409236512
+486m 22s (- 243m 11s) (10 18%) 0.2322
+Validate metric: 0.04370931185297603
+489m 20s (- 244m 40s) (10 23%) 0.2501
+Validate metric: 0.042869734660426685
+492m 25s (- 246m 12s) (10 27%) 0.2302
+Validate metric: 0.033627729461487885
+495m 26s (- 247m 43s) (10 32%) 0.2810
+Validate metric: 0.039326391547906646
+498m 34s (- 249m 17s) (10 37%) 0.2297
+Validate metric: 0.040778910859876435
+501m 34s (- 250m 47s) (10 41%) 0.2203
+Validate metric: 0.04550895362408737
+504m 52s (- 252m 26s) (10 46%) 0.2511
+Validate metric: 0.034415774613457156
+507m 54s (- 253m 57s) (10 50%) 0.2452
+Validate metric: 0.04057908213916763
+510m 47s (- 255m 23s) (10 55%) 0.1358
+Validate metric: 0.048553663218679655
+513m 12s (- 256m 36s) (10 60%) 0.0843
+Validate metric: 0.04961163645585
+515m 34s (- 257m 47s) (10 64%) 0.0909
+Validate metric: 0.04653875469571094
+517m 59s (- 258m 59s) (10 69%) 0.0788
+Validate metric: 0.049950153935660366
+520m 20s (- 260m 10s) (10 74%) 0.0703
+Validate metric: 0.043753635797823924
+522m 38s (- 261m 19s) (10 78%) 0.0720
+Validate metric: 0.04441187385533564
+525m 3s (- 262m 31s) (10 83%) 0.0780
+Validate metric: 0.04593122383780548
+527m 38s (- 263m 49s) (10 87%) 0.1189
+Validate metric: 0.05832983516700029
+530m 11s (- 265m 5s) (10 92%) 0.1453
+Validate metric: 0.04801325912382487
+532m 49s (- 266m 24s) (10 97%) 0.1677
+Validate metric: 0.047886691364814236
+534m 51s (- 194m 29s) (11 0%) 0.0026
+Validate metric: 0.05308837178230457
+537m 45s (- 195m 32s) (11 4%) 0.2244
+Validate metric: 0.056232287287076084
+540m 45s (- 196m 38s) (11 9%) 0.2570
+Validate metric: 0.051013923705036955
+543m 46s (- 197m 44s) (11 13%) 0.2599
+Validate metric: 0.058472300216309205
+546m 48s (- 198m 50s) (11 18%) 0.2396
+Validate metric: 0.04863200732210488
+549m 53s (- 199m 57s) (11 23%) 0.2754
+Validate metric: 0.05000934240200657
+552m 58s (- 201m 4s) (11 27%) 0.2840
+Validate metric: 0.03994155117646179
+555m 56s (- 202m 9s) (11 32%) 0.2501
+Validate metric: 0.05126678749581355
+558m 53s (- 203m 13s) (11 37%) 0.2378
+Validate metric: 0.039309395787452385
+562m 5s (- 204m 23s) (11 41%) 0.2558
+Validate metric: 0.04276639744718485
+565m 10s (- 205m 31s) (11 46%) 0.2231
+Validate metric: 0.04190485374259062
+568m 6s (- 206m 35s) (11 50%) 0.2578
+Validate metric: 0.04039922212441995
+570m 47s (- 207m 33s) (11 55%) 0.1366
+Validate metric: 0.05292975220403953
+573m 13s (- 208m 26s) (11 60%) 0.0942
+Validate metric: 0.0571800922830916
+575m 34s (- 209m 17s) (11 64%) 0.0818
+Validate metric: 0.04921924487059356
+577m 58s (- 210m 10s) (11 69%) 0.0873
+Validate metric: 0.04580594426095402
+580m 19s (- 211m 1s) (11 74%) 0.0926
+Validate metric: 0.06054311726556944
+582m 38s (- 211m 52s) (11 78%) 0.0797
+Validate metric: 0.05347804856525695
+585m 3s (- 212m 44s) (11 83%) 0.1007
+Validate metric: 0.053795918136896895
+587m 22s (- 213m 35s) (11 87%) 0.1591
+Validate metric: 0.05393979465232834
+589m 56s (- 214m 31s) (11 92%) 0.1586
+Validate metric: 0.05136183392041636
+592m 39s (- 215m 30s) (11 97%) 0.1662
+Validate metric: 0.04276244018332387
+594m 40s (- 148m 40s) (12 0%) 0.0031
+Validate metric: 0.04698601330967245
+597m 38s (- 149m 24s) (12 4%) 0.2460
+Validate metric: 0.042393072124192945
+600m 31s (- 150m 7s) (12 9%) 0.2458
+Validate metric: 0.049981601715568855
+603m 30s (- 150m 52s) (12 13%) 0.3145
+Validate metric: 0.04486681607600713
+606m 32s (- 151m 38s) (12 18%) 0.2884
+Validate metric: 0.0501591543783065
+609m 30s (- 152m 22s) (12 23%) 0.1742
+Validate metric: 0.044875430291872326
+612m 23s (- 153m 5s) (12 27%) 0.2203
+Validate metric: 0.03721137872876531
+615m 21s (- 153m 50s) (12 32%) 0.2496
+Validate metric: 0.04677134548792948
+618m 26s (- 154m 36s) (12 37%) 0.2614
+Validate metric: 0.04287627619799754
+621m 21s (- 155m 20s) (12 41%) 0.2835
+Validate metric: 0.040363460498489996
+624m 22s (- 156m 5s) (12 46%) 0.2633
+Validate metric: 0.034969476617720464
+627m 20s (- 156m 50s) (12 50%) 0.2333
+Validate metric: 0.03357076012626388
+629m 53s (- 157m 28s) (12 55%) 0.1429
+Validate metric: 0.03830232457673369
+632m 18s (- 158m 4s) (12 60%) 0.0972
+Validate metric: 0.047072515605567126
+634m 40s (- 158m 40s) (12 64%) 0.0911
+Validate metric: 0.04149558965127783
+637m 5s (- 159m 16s) (12 69%) 0.1047
+Validate metric: 0.03902465996255479
+639m 26s (- 159m 51s) (12 74%) 0.1077
+Validate metric: 0.04639153143030356
+641m 45s (- 160m 26s) (12 78%) 0.0894
+Validate metric: 0.043986654265830705
+644m 10s (- 161m 2s) (12 83%) 0.0995
+Validate metric: 0.041703343828315406
+646m 46s (- 161m 41s) (12 87%) 0.1731
+Validate metric: 0.05017405586071041
+649m 21s (- 162m 20s) (12 92%) 0.1882
+Validate metric: 0.05600535675687587
+651m 56s (- 162m 59s) (12 97%) 0.1732
+Validate metric: 0.04736696979561299
+654m 2s (- 100m 37s) (13 0%) 0.0070
+Validate metric: 0.049043686465346625
+656m 59s (- 101m 4s) (13 4%) 0.2558
+Validate metric: 0.05306703591560218
+660m 0s (- 101m 32s) (13 9%) 0.2365
+Validate metric: 0.04825772749321813
+663m 0s (- 102m 0s) (13 13%) 0.2303
+Validate metric: 0.0495947494261056
+665m 58s (- 102m 27s) (13 18%) 0.2382
+Validate metric: 0.049148755704711194
+668m 50s (- 102m 53s) (13 23%) 0.2188
+Validate metric: 0.04778188268020287
+671m 43s (- 103m 20s) (13 27%) 0.2793
+Validate metric: 0.041104642094307135
+674m 42s (- 103m 48s) (13 32%) 0.2762
+Validate metric: 0.04348285630908139
+677m 40s (- 104m 15s) (13 37%) 0.2459
+Validate metric: 0.050736415843186104
+680m 40s (- 104m 43s) (13 41%) 0.2575
+Validate metric: 0.04335520031972573
+683m 45s (- 105m 11s) (13 46%) 0.3220
+Validate metric: 0.035560297944292454
+686m 44s (- 105m 39s) (13 50%) 0.3407
+Validate metric: 0.043644481364026835
+689m 41s (- 106m 6s) (13 55%) 0.2017
+Validate metric: 0.04616574206928924
+692m 8s (- 106m 28s) (13 60%) 0.1209
+Validate metric: 0.0546308400487975
+694m 30s (- 106m 50s) (13 64%) 0.1235
+Validate metric: 0.04884385741609974
+696m 52s (- 107m 12s) (13 69%) 0.0930
+Validate metric: 0.04736334178075924
+699m 11s (- 107m 34s) (13 74%) 0.0842
+Validate metric: 0.049679592633802616
+701m 32s (- 107m 55s) (13 78%) 0.0918
+Validate metric: 0.05178073297352421
+703m 57s (- 108m 18s) (13 83%) 0.0831
+Validate metric: 0.054008466392787675
+706m 33s (- 108m 42s) (13 87%) 0.1709
+Saving weights
+Validate metric: 0.06503386142500095
+709m 15s (- 109m 6s) (13 92%) 0.1741
+Validate metric: 0.04968835310272888
+711m 51s (- 109m 30s) (13 97%) 0.1528
+Validate metric: 0.041933208024090673
+713m 57s (- 50m 59s) (14 0%) 0.0092
+Validate metric: 0.04110576672878493
+716m 56s (- 51m 12s) (14 4%) 0.2883
+Validate metric: 0.03557201457540788
+719m 55s (- 51m 25s) (14 9%) 0.2661
+Validate metric: 0.04541931247523211
+722m 53s (- 51m 38s) (14 13%) 0.3527
+Validate metric: 0.049567041068995954
+725m 49s (- 51m 50s) (14 18%) 0.3220
+Validate metric: 0.045519138371817605
+728m 43s (- 52m 3s) (14 23%) 0.2670
+Validate metric: 0.040471222479020914
+731m 32s (- 52m 15s) (14 27%) 0.2264
+Validate metric: 0.03936516818923587
+734m 26s (- 52m 27s) (14 32%) 0.2790
+Validate metric: 0.042446030255738884
+737m 22s (- 52m 40s) (14 37%) 0.3323
+Validate metric: 0.038528645929661834
+740m 20s (- 52m 52s) (14 41%) 0.2950
+Validate metric: 0.04110466622828723
+743m 24s (- 53m 6s) (14 46%) 0.3721
+Validate metric: 0.039360783629106666
+746m 24s (- 53m 18s) (14 50%) 0.3507
+Validate metric: 0.04350060134654269
+748m 54s (- 53m 29s) (14 55%) 0.1652
+Validate metric: 0.048179942212047945
+751m 18s (- 53m 39s) (14 60%) 0.1098
+Validate metric: 0.04918038182877256
+753m 39s (- 53m 49s) (14 64%) 0.1046
+Validate metric: 0.048216009065803346
+756m 1s (- 54m 0s) (14 69%) 0.0757
+Validate metric: 0.03676902761780273
+758m 18s (- 54m 9s) (14 74%) 0.0955
+Validate metric: 0.05379284951621062
+760m 36s (- 54m 19s) (14 78%) 0.1019
+Validate metric: 0.05145905442082913
+763m 2s (- 54m 30s) (14 83%) 0.1222
+Validate metric: 0.05460955549959885
+765m 37s (- 54m 41s) (14 87%) 0.2030
+Validate metric: 0.04005024191282855
+768m 12s (- 54m 52s) (14 92%) 0.1691
+Validate metric: 0.04805977623158996
+770m 48s (- 55m 3s) (14 97%) 0.1709
+Validate metric: 0.045784104650655404
+772m 51s (- 0m 0s) (15 0%) 0.0117
+Validate metric: 0.048001171027932756
+775m 47s (- 0m 0s) (15 4%) 0.3993
+Validate metric: 0.03917849112185341
+778m 45s (- 0m 0s) (15 9%) 0.3652
+Validate metric: 0.04405763783517968
+781m 40s (- 0m 0s) (15 13%) 0.3664
+Validate metric: 0.043751854862088824
+784m 41s (- 0m 0s) (15 18%) 0.3562
+Validate metric: 0.045323621709806354
+787m 38s (- 0m 0s) (15 23%) 0.2626
+Validate metric: 0.04142198054614377
+790m 38s (- 0m 0s) (15 27%) 0.3461
+Validate metric: 0.03791633057491009
+793m 38s (- 0m 0s) (15 32%) 0.2806
+Validate metric: 0.04092622968898044
+796m 38s (- 0m 0s) (15 37%) 0.3206
+Validate metric: 0.04736498323834716
+799m 43s (- 0m 0s) (15 41%) 0.2919
+Validate metric: 0.044169009277038
+802m 42s (- 0m 0s) (15 46%) 0.3176
+Validate metric: 0.04423969268125136
+805m 43s (- 0m 0s) (15 50%) 0.2689
+Validate metric: 0.04440303835515589
+808m 16s (- 0m 0s) (15 55%) 0.1431
+Validate metric: 0.05617386365409106
+810m 40s (- 0m 0s) (15 60%) 0.1112
+Validate metric: 0.04533543049526494
+813m 0s (- 0m 0s) (15 64%) 0.0839
+Validate metric: 0.042588438837539905
+815m 24s (- 0m 0s) (15 69%) 0.0859
+Validate metric: 0.052246252504330466
+817m 44s (- 0m 0s) (15 74%) 0.0964
+Validate metric: 0.059285369802804605
+820m 6s (- 0m 0s) (15 78%) 0.0755
+Validate metric: 0.044684788190445295
+822m 35s (- 0m 0s) (15 83%) 0.1733
+Validate metric: 0.054626111051236256
+825m 12s (- 0m 0s) (15 87%) 0.1643
+Validate metric: 0.05697736795902708
+827m 48s (- 0m 0s) (15 92%) 0.1697
+Validate metric: 0.053059622005049656
+830m 26s (- 0m 0s) (15 97%) 0.1738
+Validate metric: 0.05331445060161752
+f1 score: 0.06503386142500095 precision: 0.06921708553828981 recall: 0.08049858154434503
