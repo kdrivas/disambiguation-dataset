@@ -373,6 +373,7 @@ def unicode_to_ascii(s):
 
 def normalize_string(pair):
     pair = unicode_to_ascii(pair.lower().strip())
+    pair = re.sub(r'[^\x00-\x7f]',r'', pair) 
     #pair = re.sub(r"([.,;!?'‘’])", r' \1', pair) # separate .!? from words
     
     return ' '.join(pair.split())
