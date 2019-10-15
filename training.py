@@ -3,7 +3,12 @@
 import itertools
 from typing import Iterator, List, Dict
 import fire
+<<<<<<< HEAD
 
+=======
+import torch
+import torch.optim as optim
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
 from allennlp.data.dataset_readers.seq2seq import Seq2SeqDatasetReader
 from allennlp.data.iterators import BucketIterator
 from allennlp.data.fields import TextField, IndexField
@@ -24,6 +29,7 @@ from allennlp.modules.token_embedders import Embedding
 from allennlp.predictors import SimpleSeq2SeqPredictor
 from allennlp.training.trainer import Trainer
 from allennlp.data.dataset_readers import DatasetReader
+<<<<<<< HEAD
 from allennlp.common.util import  prepare_environment
 from allennlp.common.params import  Params
 
@@ -44,6 +50,18 @@ CUDA_DEVICE = 0
 
 import torch.optim as optim
 import torch
+=======
+
+from src.data import prepare_data
+import numpy as np
+import os 
+from pathlib import Path
+
+EN_EMBEDDING_DIM = 300
+ZH_EMBEDDING_DIM = 300
+HIDDEN_DIM = 256
+CUDA_DEVICE = 0
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
 
 def evaluate_acc(predictor, test_dataset, pairs_test, selected_synsets, senses_per_sentence, report=False, verbose=False):
     dict_pt_verbs = {'tratar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
@@ -77,6 +95,10 @@ def evaluate_acc(predictor, test_dataset, pairs_test, selected_synsets, senses_p
         if len(senses) == 0:
             continue
         output_words = predictor.predict_instance(instance)['predicted_tokens']
+<<<<<<< HEAD
+=======
+        torch.cuda.empty_cache()
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
         
         for pos, sense in senses:
             if len(output_words) > pos:  
@@ -103,7 +125,11 @@ def evaluate_acc(predictor, test_dataset, pairs_test, selected_synsets, senses_p
     else:
         return f1
 
+<<<<<<< HEAD
 def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results_2/', max_length=120, cuda_id=0, cuda=True, n_epochs=9, seed=0, lr=0.0001):
+=======
+def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_id=0, cuda=True, n_epochs=9, seed=0):
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
     
     dir_train = os.path.join(dir_files, train_dir)
     dir_test = os.path.join(dir_files, test_dir)
@@ -116,6 +142,10 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
     reader = Seq2SeqDatasetReader(
         source_tokenizer=WordTokenizer(),
         target_tokenizer=WordTokenizer(),
+<<<<<<< HEAD
+=======
+        delimiter=',',
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
         source_token_indexers={'tokens': SingleIdTokenIndexer()},
         target_token_indexers={'tokens': SingleIdTokenIndexer(namespace='target_tokens')})
     train_dataset = reader.read(os.path.join(dir_train, name_file + '.tsv'))
@@ -142,7 +172,11 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
                           beam_size=8,
                           use_bleu=True).cuda()
     
+<<<<<<< HEAD
     optimizer = optim.Adam(model.parameters(), lr=lr)
+=======
+    optimizer = optim.Adam(model.parameters())
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
     iterator = BucketIterator(batch_size=32, sorting_keys=[("source_tokens", "num_tokens")])
 
     iterator.index_with(vocab)
@@ -151,7 +185,13 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
                       optimizer=optimizer,
                       iterator=iterator,
                       train_dataset=train_dataset,
+<<<<<<< HEAD
                       num_epochs=8,
+=======
+                      validation_dataset=validation_dataset,
+                      patience=7,
+                      num_epochs=25,
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
                       cuda_device=cuda_id)
 
     trainer.train()
@@ -160,20 +200,29 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
                       optimizer=optimizer,
                       iterator=iterator,
                       train_dataset=train_dataset,
+<<<<<<< HEAD
+=======
+                      validation_dataset=validation_dataset,
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
                       patience=7,
                       num_epochs=1,
                       cuda_device=cuda_id)
 
     best_metric = 0
     metrics = []
+<<<<<<< HEAD
     precisions = []
     recalls = []
     for i in range(0, 30):
+=======
+    for i in range(0, 40):
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
         print('Epoch: {}'.format(i))
         trainer.train()
 
         predictor = SimpleSeq2SeqPredictor(model, reader)
         if True:
+<<<<<<< HEAD
             metric, precision, recall, report = evaluate_acc(predictor, validation_dataset, pairs_test, selected_synsets, senses_per_sentence, report=True, verbose=False)
             metrics.append(metric)
             precisions.append(precision)
@@ -182,11 +231,18 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
                 best_metric = metric
                 res = get_stats(report, pairs_train, pairs_test)
                 res.to_csv(f'{dir_results}/report_allen.csv')
+=======
+            metric = evaluate_acc(predictor, validation_dataset, pairs_test, selected_synsets, senses_per_sentence, report=False, verbose=False)
+            metrics.append(metric)
+            if metric > best_metric:
+                best_metric = metric
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
                 with open(os.path.join(dir_results, "allen.th"), 'wb') as f:
                     torch.save(model.state_dict(), f)
                 print('-----best----', best_metric)
 
     np.save(os.path.join(dir_results, 'metrics_allen.npy'), metrics)
+<<<<<<< HEAD
     np.save(os.path.join(dir_results, 'recalls_allen.npy'), recalls)
     np.save(os.path.join(dir_results, 'precisions_allen.npy'), precisions)
 
@@ -197,6 +253,15 @@ def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/d
 
     #res = get_stats(report, pairs_train, pairs_test)
     #res.to_csv(f'{dir_results}/report_allen.csv')
+=======
+    with open(os.path.join(dir_results, "allen.th"), 'rb') as f:
+        model.load_state_dict(torch.load(f))
+    f1, precision, recall, report = evaluate_acc(predictor, validation_dataset, pairs_test, selected_synsets, senses_per_sentence, report=True, verbose=False)
+    print('f1 score:', f1, 'precision:', precision, 'recall:', recall)
+
+    res = get_stats(report, pairs_train, pairs_test)
+    res.to_csv(f'{dir_results}/report_allen.csv')
+>>>>>>> b4396c75b27e3d4f8680ea6762d7f2c530382768
                                                                              
 if __name__ == '__main__':
     fire.Fire(main)

@@ -1,0 +1,412 @@
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/rnn.py:179: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.dropout, self.training, self.bidirectional, self.batch_first)
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/functional.py:1320: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+Reading lines...
+Read 54196 train pairs
+Reading lines...
+Read 2270 test pairs
+Filtered to 53993 pairs
+Creating vocab...
+Indexed 63401 words in input language, 62638 words in output
+['estacoes de programacao para negro ouvintes estao a ter para actualizar os seus programas, a fim de manter o ritmo com o aumento educacionais , economicas e niveis culturais .'
+ 'estacoes de programacao para negro ouvintes estao a ter para actualizar os seus programas, a fim de manter o ritmo com o aumento educacionais , economicas e niveis culturais .']
+1m 29s (- 20m 51s) (1 4%) 4.0292
+2m 41s (- 37m 47s) (1 9%) 3.1676
+4m 31s (- 63m 17s) (1 13%) 3.5509
+6m 19s (- 88m 35s) (1 18%) 3.0421
+8m 5s (- 113m 12s) (1 23%) 2.8997
+9m 50s (- 137m 49s) (1 27%) 2.8183
+11m 37s (- 162m 47s) (1 32%) 2.5112
+13m 31s (- 189m 26s) (1 37%) 2.4559
+15m 20s (- 214m 47s) (1 41%) 2.3200
+17m 9s (- 240m 16s) (1 46%) 2.1143
+19m 1s (- 266m 22s) (1 50%) 1.8429
+20m 10s (- 282m 33s) (1 55%) 1.6462
+21m 11s (- 296m 39s) (1 60%) 1.3605
+22m 13s (- 311m 2s) (1 64%) 1.2355
+23m 12s (- 325m 0s) (1 69%) 1.1051
+24m 14s (- 339m 24s) (1 74%) 0.9921
+25m 11s (- 352m 46s) (1 78%) 0.9588
+26m 44s (- 374m 29s) (1 83%) 1.9556
+28m 15s (- 395m 38s) (1 87%) 1.3310
+29m 44s (- 416m 21s) (1 92%) 1.1095
+31m 15s (- 437m 35s) (1 97%) 0.8657
+32m 4s (- 208m 32s) (2 0%) 0.0169
+33m 25s (- 217m 18s) (2 4%) 0.7244
+34m 39s (- 225m 19s) (2 9%) 0.6105
+36m 32s (- 237m 34s) (2 13%) 1.2453
+38m 23s (- 249m 29s) (2 18%) 0.8990
+40m 13s (- 261m 27s) (2 23%) 0.8070
+42m 1s (- 273m 11s) (2 27%) 0.7173
+43m 52s (- 285m 8s) (2 32%) 0.6405
+45m 44s (- 297m 20s) (2 37%) 0.6399
+47m 32s (- 309m 2s) (2 41%) 0.7557
+49m 21s (- 320m 51s) (2 46%) 0.5836
+51m 13s (- 333m 0s) (2 50%) 0.5461
+52m 23s (- 340m 32s) (2 55%) 0.3096
+53m 23s (- 347m 4s) (2 60%) 0.2636
+54m 24s (- 353m 42s) (2 64%) 0.2951
+55m 24s (- 360m 11s) (2 69%) 0.2780
+56m 26s (- 366m 54s) (2 74%) 0.2576
+57m 24s (- 373m 7s) (2 78%) 0.2386
+58m 58s (- 383m 18s) (2 83%) 0.8909
+60m 28s (- 393m 3s) (2 87%) 0.4670
+61m 57s (- 402m 45s) (2 92%) 0.3838
+63m 29s (- 412m 42s) (2 97%) 0.3509
+64m 20s (- 257m 21s) (3 0%) 0.0060
+65m 42s (- 262m 48s) (3 4%) 0.2181
+66m 55s (- 267m 43s) (3 9%) 0.2031
+68m 48s (- 275m 14s) (3 13%) 0.6654
+70m 41s (- 282m 45s) (3 18%) 0.4447
+72m 31s (- 290m 5s) (3 23%) 0.5004
+74m 21s (- 297m 25s) (3 27%) 0.4402
+76m 12s (- 304m 51s) (3 32%) 0.3315
+78m 5s (- 312m 22s) (3 37%) 0.3178
+79m 52s (- 319m 29s) (3 41%) 0.3328
+81m 40s (- 326m 42s) (3 46%) 0.3619
+83m 33s (- 334m 13s) (3 50%) 0.2972
+84m 45s (- 339m 1s) (3 55%) 0.1279
+85m 45s (- 343m 1s) (3 60%) 0.1125
+86m 46s (- 347m 6s) (3 64%) 0.1131
+87m 46s (- 351m 4s) (3 69%) 0.0844
+88m 47s (- 355m 10s) (3 74%) 0.1536
+89m 44s (- 358m 58s) (3 78%) 0.1403
+91m 17s (- 365m 10s) (3 83%) 0.5158
+92m 46s (- 371m 6s) (3 87%) 0.3151
+94m 16s (- 377m 4s) (3 92%) 0.3174
+95m 46s (- 383m 4s) (3 97%) 0.3538
+96m 37s (- 265m 42s) (4 0%) 0.0045
+Saving weights
+Validate metric: 0.04725711321033722
+99m 35s (- 273m 51s) (4 4%) 0.1544
+Validate metric: 0.03739542842324017
+102m 5s (- 280m 46s) (4 9%) 0.1299
+Validate metric: 0.035055705403085016
+105m 16s (- 289m 29s) (4 13%) 0.4030
+Validate metric: 0.031092794760442632
+108m 25s (- 298m 10s) (4 18%) 0.3401
+Validate metric: 0.030188136688973573
+111m 36s (- 306m 54s) (4 23%) 0.2609
+Validate metric: 0.03318850691045995
+114m 37s (- 315m 14s) (4 27%) 0.2760
+Validate metric: 0.036551858164711515
+117m 45s (- 323m 51s) (4 32%) 0.2618
+Validate metric: 0.03739712369890672
+120m 54s (- 332m 31s) (4 37%) 0.2703
+Validate metric: 0.0358885123877039
+124m 1s (- 341m 4s) (4 41%) 0.3160
+Validate metric: 0.03597115117727195
+127m 11s (- 349m 45s) (4 46%) 0.2113
+Validate metric: 0.04255540032238821
+130m 22s (- 358m 32s) (4 50%) 0.2296
+Validate metric: 0.04262149860511209
+132m 52s (- 365m 24s) (4 55%) 0.1226
+Validate metric: 0.042530336532838844
+135m 7s (- 371m 36s) (4 60%) 0.0873
+Validate metric: 0.04041914657066118
+137m 31s (- 378m 11s) (4 64%) 0.0678
+Validate metric: 0.038855872935108206
+139m 50s (- 384m 33s) (4 69%) 0.0694
+Validate metric: 0.04373303963219823
+142m 10s (- 390m 58s) (4 74%) 0.0859
+Validate metric: 0.04248391286403781
+144m 24s (- 397m 6s) (4 78%) 0.0877
+Validate metric: 0.04171016428205482
+147m 3s (- 404m 24s) (4 83%) 0.3949
+Validate metric: 0.036408504025253384
+149m 47s (- 411m 54s) (4 87%) 0.2520
+Validate metric: 0.045273460356523916
+152m 27s (- 419m 14s) (4 92%) 0.2210
+Validate metric: 0.035198717620353294
+155m 7s (- 426m 35s) (4 97%) 0.1664
+Validate metric: 0.044665558228575125
+157m 14s (- 314m 28s) (5 0%) 0.0063
+Validate metric: 0.043788182990231315
+159m 48s (- 319m 36s) (5 4%) 0.1246
+Validate metric: 0.03935706583657576
+162m 12s (- 324m 25s) (5 9%) 0.1182
+Validate metric: 0.03262416380025039
+165m 23s (- 330m 47s) (5 13%) 0.4371
+Validate metric: 0.034049419358396796
+168m 28s (- 336m 56s) (5 18%) 0.2834
+Validate metric: 0.03514436951785726
+171m 29s (- 342m 59s) (5 23%) 0.2245
+Validate metric: 0.03713655641696608
+174m 30s (- 349m 1s) (5 27%) 0.2795
+Validate metric: 0.031253666731041935
+177m 33s (- 355m 6s) (5 32%) 0.2413
+Validate metric: 0.027893598045392758
+180m 48s (- 361m 37s) (5 37%) 0.2354
+Validate metric: 0.03532658714789846
+183m 49s (- 367m 39s) (5 41%) 0.1958
+Validate metric: 0.03271199646381452
+186m 49s (- 373m 38s) (5 46%) 0.2186
+Validate metric: 0.03168975283414383
+189m 57s (- 379m 54s) (5 50%) 0.1745
+Validate metric: 0.03718367999767854
+192m 19s (- 384m 38s) (5 55%) 0.1120
+Saving weights
+Validate metric: 0.05159627945479113
+194m 48s (- 389m 36s) (5 60%) 0.0718
+Validate metric: 0.04138561446010998
+197m 0s (- 394m 0s) (5 64%) 0.0599
+Validate metric: 0.03973130115053901
+199m 24s (- 398m 49s) (5 69%) 0.0637
+Validate metric: 0.042940207363224486
+201m 50s (- 403m 41s) (5 74%) 0.1203
+Validate metric: 0.04256913209007826
+204m 1s (- 408m 2s) (5 78%) 0.1412
+Validate metric: 0.048817461912028515
+206m 53s (- 413m 46s) (5 83%) 0.3407
+Validate metric: 0.036775768508201044
+209m 47s (- 419m 35s) (5 87%) 0.2978
+Validate metric: 0.043661121629692504
+212m 37s (- 425m 14s) (5 92%) 0.2017
+Validate metric: 0.04119715689200052
+215m 30s (- 431m 0s) (5 97%) 0.1579
+Validate metric: 0.04737076869778936
+217m 38s (- 326m 27s) (6 0%) 0.0016
+Saving weights
+Validate metric: 0.05874351805909866
+220m 25s (- 330m 37s) (6 4%) 0.1244
+Validate metric: 0.04337094337345709
+222m 50s (- 334m 16s) (6 9%) 0.1184
+Validate metric: 0.04034091494267566
+225m 59s (- 338m 58s) (6 13%) 0.4960
+Validate metric: 0.03393566300147271
+229m 8s (- 343m 43s) (6 18%) 0.3479
+Validate metric: 0.03515041491947533
+232m 4s (- 348m 6s) (6 23%) 0.3342
+Validate metric: 0.02824167242790371
+234m 58s (- 352m 27s) (6 27%) 0.2879
+Validate metric: 0.034314283953698906
+237m 56s (- 356m 55s) (6 32%) 0.1999
+Validate metric: 0.0336375419059653
+241m 2s (- 361m 33s) (6 37%) 0.2291
+Validate metric: 0.04483289351457899
+244m 0s (- 366m 0s) (6 41%) 0.1899
+Validate metric: 0.03450922418406624
+247m 1s (- 370m 32s) (6 46%) 0.2132
+Validate metric: 0.03937957888407313
+250m 14s (- 375m 21s) (6 50%) 0.1704
+Validate metric: 0.037134355740591436
+252m 39s (- 378m 59s) (6 55%) 0.0704
+Validate metric: 0.040851687569174754
+254m 54s (- 382m 21s) (6 60%) 0.0532
+Validate metric: 0.04549990177543967
+257m 9s (- 385m 44s) (6 64%) 0.0494
+Validate metric: 0.036447483163982435
+259m 25s (- 389m 8s) (6 69%) 0.0697
+Validate metric: 0.04568831110187614
+261m 38s (- 392m 27s) (6 74%) 0.1004
+Validate metric: 0.04706906419936463
+263m 45s (- 395m 38s) (6 78%) 0.1989
+Validate metric: 0.04696402574446511
+266m 26s (- 399m 40s) (6 83%) 0.4691
+Validate metric: 0.039478781488750656
+269m 12s (- 403m 48s) (6 87%) 0.2860
+Validate metric: 0.04953013302817266
+272m 8s (- 408m 13s) (6 92%) 0.1897
+Validate metric: 0.04216089054952261
+274m 55s (- 412m 22s) (6 97%) 0.1808
+Validate metric: 0.048972386971862764
+277m 8s (- 316m 43s) (7 0%) 0.0065
+Validate metric: 0.05313459597263712
+279m 51s (- 319m 50s) (7 4%) 0.1360
+Validate metric: 0.04022982846413327
+282m 19s (- 322m 39s) (7 9%) 0.1351
+Validate metric: 0.04105420847340719
+285m 31s (- 326m 19s) (7 13%) 0.4368
+Validate metric: 0.03766892383572744
+288m 37s (- 329m 51s) (7 18%) 0.2842
+Validate metric: 0.03297099439566047
+291m 43s (- 333m 24s) (7 23%) 0.2854
+Validate metric: 0.035301712383018345
+294m 47s (- 336m 53s) (7 27%) 0.2525
+Validate metric: 0.02833271149295812
+297m 48s (- 340m 21s) (7 32%) 0.2717
+Validate metric: 0.031031791336538963
+300m 46s (- 343m 44s) (7 37%) 0.2867
+Validate metric: 0.032888779878904394
+303m 46s (- 347m 10s) (7 41%) 0.2651
+Validate metric: 0.031834283027413965
+306m 50s (- 350m 40s) (7 46%) 0.1920
+Validate metric: 0.031249235194467553
+309m 54s (- 354m 10s) (7 50%) 0.2087
+Validate metric: 0.03265534218183236
+312m 14s (- 356m 51s) (7 55%) 0.0825
+Validate metric: 0.03706980656327835
+314m 21s (- 359m 15s) (7 60%) 0.0695
+Validate metric: 0.041257210329687946
+316m 30s (- 361m 43s) (7 64%) 0.0618
+Validate metric: 0.03760187646711946
+318m 37s (- 364m 8s) (7 69%) 0.0624
+Validate metric: 0.045003437619292964
+320m 50s (- 366m 40s) (7 74%) 0.0864
+Validate metric: 0.048096706551388334
+322m 55s (- 369m 3s) (7 78%) 0.0900
+Validate metric: 0.043601128108665774
+325m 36s (- 372m 7s) (7 83%) 0.3882
+Validate metric: 0.045505783014198706
+328m 17s (- 375m 11s) (7 87%) 0.2102
+Validate metric: 0.044177711051600455
+330m 57s (- 378m 13s) (7 92%) 0.1356
+Validate metric: 0.03943871363849308
+333m 34s (- 381m 13s) (7 97%) 0.1580
+Validate metric: 0.04160529032644468
+335m 35s (- 293m 38s) (8 0%) 0.0044
+Validate metric: 0.04432316217035223
+338m 5s (- 295m 49s) (8 4%) 0.1222
+Validate metric: 0.03414197373651007
+340m 31s (- 297m 57s) (8 9%) 0.1254
+Validate metric: 0.03140346488141804
+343m 31s (- 300m 34s) (8 13%) 0.4926
+Validate metric: 0.029041632126314852
+346m 36s (- 303m 17s) (8 18%) 0.2167
+Validate metric: 0.022450053422463534
+349m 36s (- 305m 54s) (8 23%) 0.2824
+Validate metric: 0.033257427052306415
+352m 30s (- 308m 26s) (8 27%) 0.3070
+Validate metric: 0.03596628922548164
+355m 28s (- 311m 2s) (8 32%) 0.2501
+Validate metric: 0.027957289957042036
+358m 32s (- 313m 43s) (8 37%) 0.2227
+Validate metric: 0.028222064709638055
+361m 29s (- 316m 18s) (8 41%) 0.2103
+Validate metric: 0.024941200751252477
+364m 24s (- 318m 51s) (8 46%) 0.2973
+Validate metric: 0.03161243053749855
+367m 20s (- 321m 25s) (8 50%) 0.1896
+Validate metric: 0.030385209458265183
+369m 38s (- 323m 26s) (8 55%) 0.1002
+Validate metric: 0.03998262020681354
+371m 46s (- 325m 18s) (8 60%) 0.0670
+Validate metric: 0.04109645900894011
+373m 53s (- 327m 9s) (8 64%) 0.0619
+Validate metric: 0.04065281741749675
+376m 2s (- 329m 2s) (8 69%) 0.0947
+Validate metric: 0.03915154025830996
+378m 15s (- 330m 58s) (8 74%) 0.0805
+Validate metric: 0.04588193407036946
+380m 21s (- 332m 48s) (8 78%) 0.0841
+Validate metric: 0.033223716124027136
+382m 58s (- 335m 6s) (8 83%) 0.4336
+Validate metric: 0.03681458050082761
+385m 49s (- 337m 35s) (8 87%) 0.2113
+Validate metric: 0.03919309241385417
+388m 32s (- 339m 58s) (8 92%) 0.1616
+Validate metric: 0.035042225753533746
+391m 12s (- 342m 18s) (8 97%) 0.1328
+Validate metric: 0.03840835290993931
+393m 9s (- 262m 6s) (9 0%) 0.0042
+Validate metric: 0.0424880737800502
+395m 47s (- 263m 51s) (9 4%) 0.0906
+Validate metric: 0.028351102494621278
+398m 10s (- 265m 26s) (9 9%) 0.0963
+Validate metric: 0.028800653141594575
+401m 12s (- 267m 28s) (9 13%) 0.4308
+Validate metric: 0.03741590116114596
+404m 17s (- 269m 31s) (9 18%) 0.2392
+Validate metric: 0.029634237486544226
+407m 14s (- 271m 29s) (9 23%) 0.2266
+Validate metric: 0.030809956177580367
+410m 10s (- 273m 26s) (9 27%) 0.1592
+Validate metric: 0.03146461396837552
+413m 6s (- 275m 24s) (9 32%) 0.2125
+Validate metric: 0.03065076805597733
+416m 21s (- 277m 34s) (9 37%) 0.2084
+Validate metric: 0.034498513020782065
+419m 25s (- 279m 37s) (9 41%) 0.1980
+Validate metric: 0.03706729963605141
+422m 30s (- 281m 40s) (9 46%) 0.1861
+Validate metric: 0.03184911933128558
+425m 41s (- 283m 47s) (9 50%) 0.1853
+Validate metric: 0.034552523468785595
+428m 7s (- 285m 24s) (9 55%) 0.1039
+Validate metric: 0.03306991944877471
+430m 18s (- 286m 52s) (9 60%) 0.0525
+Validate metric: 0.044889599600353006
+432m 28s (- 288m 19s) (9 64%) 0.0505
+Validate metric: 0.035140225833550254
+434m 38s (- 289m 45s) (9 69%) 0.0607
+Validate metric: 0.04505612578727819
+436m 49s (- 291m 13s) (9 74%) 0.0673
+Validate metric: 0.042864337992418164
+439m 2s (- 292m 41s) (9 78%) 0.0845
+Validate metric: 0.04177219347653717
+441m 48s (- 294m 32s) (9 83%) 0.3094
+Validate metric: 0.04582056196912385
+444m 24s (- 296m 16s) (9 87%) 0.1465
+Validate metric: 0.0448816537833447
+447m 4s (- 298m 3s) (9 92%) 0.1703
+Validate metric: 0.03669278107892974
+449m 46s (- 299m 51s) (9 97%) 0.1588
+Validate metric: 0.04465970400834646
+451m 46s (- 225m 53s) (10 0%) 0.0060
+Validate metric: 0.04313658799738392
+454m 19s (- 227m 9s) (10 4%) 0.1032
+Validate metric: 0.03521782286422469
+456m 49s (- 228m 24s) (10 9%) 0.0687
+Validate metric: 0.03887614117894743
+459m 51s (- 229m 55s) (10 13%) 0.3135
+Validate metric: 0.03505913146566707
+462m 50s (- 231m 25s) (10 18%) 0.2745
+Validate metric: 0.03578179409480577
+465m 48s (- 232m 54s) (10 23%) 0.2029
+Validate metric: 0.03897526720470574
+468m 43s (- 234m 21s) (10 27%) 0.2198
+Validate metric: 0.03263067574901584
+471m 43s (- 235m 51s) (10 32%) 0.1977
+Validate metric: 0.037983700487222403
+474m 57s (- 237m 28s) (10 37%) 0.2316
+Validate metric: 0.03386855989841991
+477m 57s (- 238m 58s) (10 41%) 0.2264
+Validate metric: 0.03268193037671924
+480m 59s (- 240m 29s) (10 46%) 0.1983
+Validate metric: 0.036150256262485914
+Traceback (most recent call last):
+  File "training.py", line 157, in <module>
+    fire.Fire(main)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 127, in Fire
+    component_trace = _Fire(component, args, context, name)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 366, in _Fire
+    component, remaining_args)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/fire/core.py", line 542, in _CallCallable
+    result = fn(*varargs, **kwargs)
+  File "training.py", line 111, in main
+    loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, device, train=train)
+  File "training.py", line 34, in train
+    all_decoder_outputs, target_var = model(input_var, target_var, device, train)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 144, in forward
+    return self.gather(outputs, self.output_device)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/data_parallel.py", line 156, in gather
+    return gather(outputs, output_device, dim=self.dim)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 67, in gather
+    return gather_map(outputs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 62, in gather_map
+    return type(out)(map(gather_map, zip(*outputs)))
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/scatter_gather.py", line 54, in gather_map
+    return Gather.apply(target_device, dim, *outputs)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/nn/parallel/_functions.py", line 68, in forward
+    return comm.gather(inputs, ctx.dim, ctx.target_device)
+  File "/home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/cuda/comm.py", line 166, in gather
+    return torch._C._gather(tensors, dim, destination)
+RuntimeError: CUDA out of memory. Tried to allocate 1.16 GiB (GPU 0; 7.93 GiB total capacity; 4.01 GiB already allocated; 1.10 GiB free; 80.01 MiB cached) (malloc at /pytorch/aten/src/THC/THCCachingAllocator.cpp:231)
+frame #0: std::function<std::string ()>::operator()() const + 0x11 (0x7fdb95623021 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #1: c10::Error::Error(c10::SourceLocation, std::string const&) + 0x2a (0x7fdb956228ea in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libc10.so)
+frame #2: <unknown function> + 0x13ddfe5 (0x7fdb35b98fe5 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #3: <unknown function> + 0x13ded9a (0x7fdb35b99d9a in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #4: at::native::empty_cuda(c10::ArrayRef<long>, at::TensorOptions const&) + 0x443 (0x7fdb36d2bb53 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #5: at::CUDAFloatType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x161 (0x7fdb35ab4301 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libcaffe2_gpu.so)
+frame #6: torch::autograd::VariableType::empty(c10::ArrayRef<long>, at::TensorOptions const&) const + 0x179 (0x7fdb948e42b9 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch.so.1)
+frame #7: torch::cuda::gather(c10::ArrayRef<at::Tensor>, long, c10::optional<int>) + 0x28b (0x7fdb95d1e2db in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x4ecddc (0x7fdb95d20ddc in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+frame #9: <unknown function> + 0x11663e (0x7fdb9594a63e in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+<omitting python frames>
+frame #18: THPFunction_apply(_object*, _object*) + 0x5a1 (0x7fdb95b47961 in /home/shared/aoncevay/miniconda3/envs/wsd/lib/python3.7/site-packages/torch/lib/libtorch_python.so)
+
