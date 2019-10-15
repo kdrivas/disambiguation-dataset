@@ -1,158 +1,202 @@
 # coding: utf-8
 
-import torch
-import torch.nn as nn
-from torch.nn import functional
-from torch.autograd import Variable
-from torch import optim
-import torch.nn.functional as F
-
-from pathlib import Path
-import numpy as np
-import pandas as pd
-import time
+import itertools
+from typing import Iterator, List, Dict
 import fire
-import random
-import os
 
-from model.encoder import Encoder
-from model.decoder import Decoder_luong
-from model.seq2seq import Seq2seq
+from allennlp.data.dataset_readers.seq2seq import Seq2SeqDatasetReader
+from allennlp.data.iterators import BucketIterator
+from allennlp.data.fields import TextField, IndexField
+from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
+from allennlp.data.tokenizers import Token
+from allennlp.data import Instance
 
-from src.utils import time_since
-from src.utils import get_stats
+from allennlp.data.tokenizers.character_tokenizer import CharacterTokenizer
+from allennlp.data.tokenizers.word_tokenizer import WordTokenizer
+from allennlp.data.vocabulary import Vocabulary
+from allennlp.nn.activations import Activation
+from allennlp.models.encoder_decoders.simple_seq2seq import SimpleSeq2Seq
+from allennlp.models import DecomposableAttention
+from allennlp.modules.attention import LinearAttention, BilinearAttention, DotProductAttention
+from allennlp.modules.seq2seq_encoders import PytorchSeq2SeqWrapper, StackedSelfAttentionEncoder
+from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
+from allennlp.modules.token_embedders import Embedding
+from allennlp.predictors import SimpleSeq2SeqPredictor
+from allennlp.training.trainer import Trainer
+from allennlp.data.dataset_readers import DatasetReader
+from allennlp.common.util import  prepare_environment
+from allennlp.common.params import  Params
+
+prepare_environment(Params({'random_seed': 123,
+                                  'numpy_seed' : 123,
+                                  'pytorch_seed' : 123}))
+
 from src.data import prepare_data
-from src.data_loader import get_loader
-from src.evaluator import evaluate_acc
-from src.parallel import DataParallelCriterion, DataParallelModel
+from src.utils import get_stats
+import numpy as np
+import os 
+from pathlib import Path
 
-def train(input_var, target_var, model,  model_optimzier, clip, output_size, device, train=True):
-    
-    if train:
-        model_optimzier.zero_grad()
+EN_EMBEDDING_DIM = 256
+ZH_EMBEDDING_DIM = 256
+HIDDEN_DIM = 256
+CUDA_DEVICE = 0
 
-    all_decoder_outputs, target_var = model(input_var, target_var, device, train)
-    loss = nn.NLLLoss()(all_decoder_outputs.view(-1, output_size), target_var.contiguous().view(-1))          
-    
-    if train:
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
-        model_optimzier.step()
-    
-    return loss.item() 
+import torch.optim as optim
+import torch
 
-def main(name_file, train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results/', max_length=120, cuda_ids = [0, 1], cuda=True, n_epochs=13, seed=0):
+def evaluate_acc(predictor, test_dataset, pairs_test, selected_synsets, senses_per_sentence, report=False, verbose=False):
+    dict_pt_verbs = {'tratar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'estabelecer_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'marcar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'vir_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'colocar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'fechar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'dar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'cair_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'encontrar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'registrar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'levar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'receber_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'apresentar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'passar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'deixar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'chegar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ficar_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'fazer_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ter_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0},\
+            'ser_tag': {'total_in_ambiguous': 0, 'total_out_ambiguous': 0, 'hint': 0}}
+        
+    hint = 0
+    total_prec = 0
+    total_reca = 0
+
+    for ix, instance in enumerate(test_dataset):
+        sentence = pairs_test[ix][0].lower()
+        senses = senses_per_sentence[ix]
+        if len(senses) == 0:
+            continue
+        output_words = predictor.predict_instance(instance)['predicted_tokens']
+        
+        for pos, sense in senses:
+            if len(output_words) > pos:  
+                pred = output_words[pos]
+                if pred in selected_synsets:
+                    dict_pt_verbs[sentence.split()[pos]]['total_out_ambiguous'] += 1
+                    total_prec += 1
+                    if sense == pred:
+                        dict_pt_verbs[sentence.split()[pos]]['hint'] += 1
+                        hint += 1
+
+            total_reca += 1
+            dict_pt_verbs[sentence.split()[pos]]['total_in_ambiguous'] += 1
+            
+        if verbose:
+            print('-O-')
+
+    precision = (hint / total_prec) if hint else 0
+    recall = (hint / total_reca) if hint else 0
+    f1 = (2 * precision * recall / (precision + recall)) if hint else 0
+    
+    if report:
+        return f1, precision, recall, dict_pt_verbs
+    else:
+        return f1
+
+def main(name_file='all_f1', train_dir='all', test_dir='test', dir_files='data/disambiguation/', dir_results='results_2/', max_length=120, cuda_id=0, cuda=True, n_epochs=9, seed=0, lr=0.0001):
     
     dir_train = os.path.join(dir_files, train_dir)
     dir_test = os.path.join(dir_files, test_dir)
     dir_results = os.path.join(dir_results, train_dir, name_file)
     os.makedirs(dir_results, exist_ok=True)
     
-    attn_model = 'general'
-    hidden_size = 712
-    emb_size = 400
-    n_layers = 2
-    seed = 12
-    dropout_p = 0.2
-    tf_ratio = 0.5
-    clip = 5.0
-
-    batch_size = 50
-    plot_every = 5
-    start_eval = 5
-    print_every = 50
-    validate_loss_every = 100
-    evaluate_every = 50
-
-    train_losses = []
-    validation_losses = []
-    validation_acc = []
-    best_metric = 0
-    print_loss_total = 0
-    plot_loss_total = 0
-
-    if cuda: torch.cuda.set_device(cuda_ids[0])
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-
     input_lang, output_lang, pairs_train, pairs_test, senses_per_sentence = prepare_data(name_file, 'verbs_selected_lemma', max_length=max_length, dir_train=dir_train, dir_test=dir_test)
     selected_synsets = np.load(os.path.join(dir_files, 'selected_synsets.npy'))
-    print(pairs_train[-1])
-    encoder = Encoder(len(input_lang.vocab.stoi), hidden_size, emb_size, n_layers, dropout_p, USE_CUDA=cuda)
-    decoder = Decoder_luong(attn_model, hidden_size, len(output_lang.vocab.stoi), emb_size, 2 * n_layers, dropout_p, USE_CUDA=cuda)
-    model = Seq2seq(input_lang, output_lang, encoder, decoder, tf_ratio, cuda)
-    device  = torch.device(cuda_ids[0] if cuda else 'cpu')
-    if cuda:
-        model = nn.DataParallel(model, device_ids=cuda_ids).cuda()
 
-    learning_rate = 0.001
-    model_optimizer = optim.Adam(model.parameters())
-    criterion = nn.NLLLoss()
-    #if cuda:
-    #    criterion = DataParallelCriterion(criterion, device_ids=cuda_ids).cuda()
+    reader = Seq2SeqDatasetReader(
+        source_tokenizer=WordTokenizer(),
+        target_tokenizer=WordTokenizer(),
+        source_token_indexers={'tokens': SingleIdTokenIndexer()},
+        target_token_indexers={'tokens': SingleIdTokenIndexer(namespace='target_tokens')})
+    train_dataset = reader.read(os.path.join(dir_train, name_file + '.tsv'))
+    validation_dataset = reader.read(os.path.join(dir_test, 'verbs_selected_lemma.tsv'))
 
-    train_loader = get_loader(pairs_train, input_lang.vocab.stoi, output_lang.vocab.stoi, batch_size=batch_size)
-    start = time.time()
+    vocab = Vocabulary.from_instances(train_dataset + validation_dataset,
+                                      min_count={'tokens': 3, 'target_tokens': 3})
 
-    for epoch in range(1, n_epochs + 1): 
-        # Shuffle data
-        id_aux = np.random.permutation(np.arange(len(pairs_train)))
-        pairs_train = pairs_train[id_aux]
+    en_embedding = Embedding(num_embeddings=vocab.get_vocab_size('tokens'),
+                             embedding_dim=EN_EMBEDDING_DIM)
 
-        model.train()
-        print_loss_total = 0
-        # Get the batches for this epoch
+    encoder = StackedSelfAttentionEncoder(input_dim=EN_EMBEDDING_DIM, hidden_dim=HIDDEN_DIM, projection_dim=128, feedforward_hidden_dim=128, num_layers=1, num_attention_heads=8)
 
-        for batch_ix, (input_var, _, target_var, _) in enumerate(train_loader):
-            # Transfer to GPU
-            input_var, target_var = input_var.cuda(), target_var.cuda() # input_var.to(device), target_var.to(device)
+    source_embedder = BasicTextFieldEmbedder({"tokens": en_embedding})
+    # attention = LinearAttention(HIDDEN_DIM, HIDDEN_DIM, activation=Activation.by_name('tanh')())
+    # attention = BilinearAttention(HIDDEN_DIM, HIDDEN_DIM)
+    attention = DotProductAttention()
 
-            # Run the train function
-            loss = train(input_var, target_var, model, model_optimizer, clip, decoder.output_size, device, train=train)
-            torch.cuda.empty_cache()
-
-            # Keep track of loss
-            print_loss_total += loss
-            plot_loss_total += loss
-
-            if batch_ix == 0 and epoch == 1: continue
-
-            if batch_ix % print_every == 0:
-                print_loss_avg = print_loss_total / print_every
-                print_loss_total = 0
-                print_summary = '%s (%d %d%%) %.4f' % (time_since(start, epoch / n_epochs), epoch, 100 * batch_ix / round(len(pairs_train) / batch_size), print_loss_avg)
-                train_losses.append(loss)
-                print(print_summary)
-
-            if epoch >= 4 and batch_ix % evaluate_every == 0:
-                model.eval()
-
-                metric = evaluate_acc(encoder, decoder, input_lang, output_lang, pairs_test, selected_synsets, senses_per_sentence, k_beams=1, report=False, max_length=max_length, cuda=cuda)
-                if metric >= best_metric:
-                    best_metric = metric
-                    torch.save(model.state_dict(), f'{dir_results}/seq2seq.pkl')
-                    torch.save(encoder.state_dict(), f'{dir_results}/enc.pkl')
-                    torch.save(decoder.state_dict(), f'{dir_results}/dec.pkl')
-                    print('Saving weights')
-                validation_acc.append(metric)
-                print(f'Validate metric: {metric}')
-
-                model.train()
-                
-                
-    np.save(f'{dir_results}/train_losses.npy', train_losses)
-    np.save(f'{dir_results}/validation_losses.npy', validation_losses)
-    np.save(f'{dir_results}/validation_acc', validation_acc)
-
-    model.load_state_dict(torch.load(f'{dir_results}/seq2seq.pkl'))
-    encoder.eval()
-    decoder.eval()
-    f1, precision, recall, report = evaluate_acc(encoder, decoder, input_lang, output_lang, pairs_test, selected_synsets, senses_per_sentence, k_beams=1, report=True, max_length=max_length, cuda=cuda)
-    print('f1 score:', f1, 'precision:', precision, 'recall:', recall)
-
-    res = get_stats(report, pairs_train, pairs_test)
-    res.to_csv(f'{dir_results}/report.csv')
+    max_decoding_steps = 100   # TODO: make this variable
+    model = SimpleSeq2Seq(vocab, source_embedder, encoder, max_decoding_steps,
+                          target_embedding_dim=ZH_EMBEDDING_DIM,
+                          target_namespace='target_tokens',
+                          attention=attention,
+                          beam_size=8,
+                          use_bleu=True).cuda()
     
+    optimizer = optim.Adam(model.parameters(), lr=lr)
+    iterator = BucketIterator(batch_size=32, sorting_keys=[("source_tokens", "num_tokens")])
+
+    iterator.index_with(vocab)
+
+    trainer = Trainer(model=model,
+                      optimizer=optimizer,
+                      iterator=iterator,
+                      train_dataset=train_dataset,
+                      num_epochs=8,
+                      cuda_device=cuda_id)
+
+    trainer.train()
+
+    trainer = Trainer(model=model,
+                      optimizer=optimizer,
+                      iterator=iterator,
+                      train_dataset=train_dataset,
+                      patience=7,
+                      num_epochs=1,
+                      cuda_device=cuda_id)
+
+    best_metric = 0
+    metrics = []
+    precisions = []
+    recalls = []
+    for i in range(0, 30):
+        print('Epoch: {}'.format(i))
+        trainer.train()
+
+        predictor = SimpleSeq2SeqPredictor(model, reader)
+        if True:
+            metric, precision, recall, report = evaluate_acc(predictor, validation_dataset, pairs_test, selected_synsets, senses_per_sentence, report=True, verbose=False)
+            metrics.append(metric)
+            precisions.append(precision)
+            recalls.append(recall)
+            if metric > best_metric:
+                best_metric = metric
+                res = get_stats(report, pairs_train, pairs_test)
+                res.to_csv(f'{dir_results}/report_allen.csv')
+                with open(os.path.join(dir_results, "allen.th"), 'wb') as f:
+                    torch.save(model.state_dict(), f)
+                print('-----best----', best_metric)
+
+    np.save(os.path.join(dir_results, 'metrics_allen.npy'), metrics)
+    np.save(os.path.join(dir_results, 'recalls_allen.npy'), recalls)
+    np.save(os.path.join(dir_results, 'precisions_allen.npy'), precisions)
+
+    #with open(os.path.join(dir_results, "allen.th"), 'rb') as f:
+    #    model.load_state_dict(torch.load(f))
+    #f1, precision, recall, report = evaluate_acc(predictor, validation_dataset, pairs_test, selected_synsets, senses_per_sentence, report=True, verbose=False)
+    #print('f1 score:', f1, 'precision:', precision, 'recall:', recall)
+
+    #res = get_stats(report, pairs_train, pairs_test)
+    #res.to_csv(f'{dir_results}/report_allen.csv')
+                                                                             
 if __name__ == '__main__':
     fire.Fire(main)
-

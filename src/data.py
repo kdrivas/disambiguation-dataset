@@ -10,18 +10,6 @@ import sys
 import pandas as pd
 import numpy as np
 
-import torch
-import torch.nn as nn
-from torch.nn import functional
-from torch.autograd import Variable
-from torch import optim
-import torch.nn.functional as F
-
-from src.tree import Tree
-import torchtext 
-from torchtext import data
-from torchtext import datasets
-
 # label of dependencies https://nlp.stanford.edu/pubs/USD_LREC14_paper_camera_ready.pdf
 
 DEP_LABELS = ['ROOT', 'ACL','ACVLCL', 'ADVMOD', 'AMOD', 'APPOS', 'AUX', 'CASE', 'CC', 'CCOMP',
@@ -439,9 +427,12 @@ def read_test(dir):
     
     return pairs
 
-def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, max_length=50, dir_train=None, dir_test=None, return_trees=False, output_tree='matrix', return_orig=False):
+def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, max_length=50, dir_train=None, dir_dev=None, dir_test=None, return_trees=False, output_tree='matrix', return_orig=False):
     pairs_train = read_file(name_file_train, reverse=reverse, dir=dir_train, return_orig=return_orig)
     print("Read %d train pairs" % len(pairs_train))
+
+    pairs_dev = read_file('dev', reverse=reverse, dir=dir_dev, return_orig=return_orig)
+    print("Read %d dev pairs" % len(pairs_dev))
     
     pairs_test = read_file(name_file_test, reverse=reverse, dir=dir_test)
     print("Read %d test pairs" % len(pairs_test))
@@ -469,8 +460,8 @@ def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, m
     pairs_out = pairs_train[:, 1]
     indexes = np.array(indexes)
     
-    vector_1 = construct_vector(pairs_in, 'in', construct_vector=False, dir=dir_train)
-    vector_2 = construct_vector(pairs_out, 'out', construct_vector=False, dir=dir_train)
+    #vector_1 = construct_vector(pairs_in, 'in', construct_vector=False, dir=dir_train)
+    #vector_2 = construct_vector(pairs_out, 'out', construct_vector=False, dir=dir_train)
     
     if return_trees:
         if output_tree == 'tree':
@@ -482,9 +473,9 @@ def prepare_data(name_file_train, name_file_test, reverse=False, min_length=0, m
             train_syntax = get_matrixes(os.path.join(dir_train, 'in.parents.npy'), pairs_train, indexes)
             test_syntax = get_matrixes(os.path.join(dir_test, 'in.parents.npy'), pairs_test)
 
-    print('Indexed %d words in input language, %d words in output' % (len(vector_1.vocab.itos), len(vector_2.vocab.itos)))
+    #print('Indexed %d words in input language, %d words in output' % (len(vector_1.vocab.itos), len(vector_2.vocab.itos)))
     if return_trees:
-        return vector_1, vector_2, train_syntax, test_syntax, np.array(pairs_train), np.array(pairs_test), senses_test
+        return 1, 1, train_syntax, test_syntax, np.array(pairs_train), np.array(pairs_test), senses_test
     else:
-        return vector_1, vector_2, np.array(pairs_train), np.array(pairs_test), senses_test
+        return 1, 1, np.array(pairs_train), np.array(pairs_dev), np.array(pairs_test), senses_test
     
